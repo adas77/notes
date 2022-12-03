@@ -1,0 +1,50 @@
+services:
+  backend:
+    build: ./backend
+    container_name: ${SPRING_CONTAINER_NAME}
+    depends_on:
+      - dibi
+    environment:
+      - APP_SPRING_DATASOURCE_URL=postgresql://dibi:5432/${POSTGRES_DB_NAME}
+      - APP_SPRING_DATASOURCE_USERNAME=${POSTGRES_DB_USER_NAME}
+      - APP_SPRING_DATASOURCE_PASSWORD=${POSTGRES_DB_PASSWORD_SECRET}
+    ports:
+      - ${SPRING_PORT}:8080
+    restart: always
+
+  dibi:
+    container_name: ${POSTGRES_CONTAINER_NAME}
+    image: postgres:15.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD_SECRET}
+      - POSTGRES_USER=${POSTGRES_DB_USER_NAME}
+      - POSTGRES_DB=${POSTGRES_DB_NAME}
+      # - PGDATA=/var/lib/postgresql/data/pgdata
+    # healthcheck:
+    #   test:
+    #     [
+    #       "CMD-SHELL",
+    #       "sh -c 'pg_isready -U ${POSTGRES_DB_USER_NAME} -d ${POSTGRES_DB_NAME}'"
+    #     ]
+    #   interval: 10s
+    #   timeout: 3s
+    #   retries: 3
+    ports:
+      - ${POSTGRES_PORT}:5432
+    # volumes:
+    #   - pgdata:/var/lib/postgresql/data
+
+  postgres_admin:
+    container_name: ${PGADMIN_CONTAINER_NAME}
+    image: dpage/pgadmin4:6.14
+    depends_on:
+      - dibi
+    environment: 
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - ${PGADMIN_PORT}:80
+    # volumes:
+    #   pgdata:
+  
