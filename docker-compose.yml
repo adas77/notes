@@ -1,4 +1,30 @@
 services:
+  nginx:
+    build: ./nginx
+    depends_on:
+      - backend
+      - frontend
+    restart: always
+    ports:
+      - "3050:80"
+
+  frontend:
+    build: ./frontend
+    container_name: ${NODE_CONTAINER_NAME}
+    stdin_open: true
+    environment:
+      # - REACT_APP_SPRING_PORT=${SPRING_PORT}
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./src:/home/node/app/src
+      # - ./nodemon.json:/home/node/app/nodemon.json
+    expose:
+      - '5173'
+    ports:
+      - ${NODE_PORT}:5173
+    
+    command: npm run dev
+
   backend:
     build: ./backend
     container_name: ${SPRING_CONTAINER_NAME}
@@ -23,15 +49,15 @@ services:
       - POSTGRES_USER=${POSTGRES_DB_USER_NAME}
       - POSTGRES_DB=${POSTGRES_DB_NAME}
       # - PGDATA=/var/lib/postgresql/data/pgdata
-    # healthcheck:
-    #   test:
-    #     [
-    #       "CMD-SHELL",
-    #       "sh -c 'pg_isready -U ${POSTGRES_DB_USER_NAME} -d ${POSTGRES_DB_NAME}'"
-    #     ]
-    #   interval: 10s
-    #   timeout: 3s
-    #   retries: 3
+      # healthcheck:
+      #   test:
+      #     [
+      #       "CMD-SHELL",
+      #       "sh -c 'pg_isready -U ${POSTGRES_DB_USER_NAME} -d ${POSTGRES_DB_NAME}'"
+      #     ]
+      #   interval: 10s
+      #   timeout: 3s
+      #   retries: 3
     ports:
       - ${POSTGRES_PORT}:5432
     # volumes:
@@ -42,11 +68,11 @@ services:
     image: dpage/pgadmin4:6.14
     depends_on:
       - dibi
-    environment: 
+    environment:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - ${PGADMIN_PORT}:80
     # volumes:
     #   pgdata:
-  
+
