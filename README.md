@@ -8,7 +8,7 @@
 - DB
   - `POSTGRESQL`
 - Server
-  - Nginx
+  - `Nginx`
 - Run
   - `Docker` & `docker-compose`
 

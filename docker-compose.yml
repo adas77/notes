@@ -3,27 +3,9 @@ services:
     build: ./nginx
     depends_on:
       - backend
-      - frontend
     restart: always
     ports:
       - "3050:80"
-
-  frontend:
-    build: ./frontend
-    container_name: ${NODE_CONTAINER_NAME}
-    stdin_open: true
-    environment:
-      # - REACT_APP_SPRING_PORT=${SPRING_PORT}
-      - CHOKIDAR_USEPOLLING=true
-    volumes:
-      - ./src:/home/node/app/src
-      # - ./nodemon.json:/home/node/app/nodemon.json
-    expose:
-      - '5173'
-    ports:
-      - ${NODE_PORT}:5173
-    
-    command: npm run dev
 
   backend:
     build: ./backend
