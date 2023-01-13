@@ -3,17 +3,13 @@ package pl.backend.Model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-// import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
@@ -44,58 +40,88 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
-    // @Size(max = 50)
     @Email
     private String email;
     @NotBlank
-    // @Size(max = 20)
     private String username;
     @NotBlank
-    // @Size(max = 120)
     private String password;
     private LocalDateTime dateOfSignUp;
-    // @ManyToMany(fetch = FetchType.LAZY)
-    // @ManyToMany(mappedBy = "authors", cascade = {
+    private String ip;
+    @ElementCollection
+    private List<Note> notes;
+    // @ManyToMany(fetch = FetchType.LAZY,
+    // cascade = {
     // CascadeType.PERSIST,
     // CascadeType.MERGE
     // })
-    // @JoinTable(name = "userx_roles", joinColumns = @JoinColumn(name =
-    // "userx_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    // @JoinTable(name = "user_note",
+    // joinColumns = { @JoinColumn(name = "user_id") },
+    // inverseJoinColumns = { @JoinColumn(name = "note_id") })
+    // private Set<Note> notes = new HashSet<>();
 
-    // @ManyToMany
-    // @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.PERSIST })
-    // @JoinColumn(name = "role_id")
-    @OneToMany
-    @JoinColumn(name = "role_id")
-    private Set<Role> roles = new HashSet<>();
+    // public void addNote(Note note) {
+    // this.notes.add(note);
+    // note.getUsers().add(this);
+    // }
 
-    public User(String email, String username, String password, Set<Role> roles) {
+    // public void removeNote(Long noteId) {
+    // Note note = this.notes.stream().filter(n -> n.getId() ==
+    // noteId).findFirst().orElse(null);
+    // if (note != null) {
+    // this.notes.remove(note);
+    // note.getUsers().remove(this);
+    // }
+
+    public User(String email, String username, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.roles = roles;
-
         this.dateOfSignUp = LocalDateTime.now();
+
     }
+
+    // private void addAllRoles(Set<Role> roles) {
+    // for (Role r : roles) {
+    // this.addRole(r);
+    // }
+    // }
+
+    // public void addRole(Role role) {
+    // this.roles.add(role);
+    // role.getUsers().add(this);
+    // }
+
+    // public void removeRole(long roleId) {
+    // Role role = this.roles.stream().filter(r -> r.getId() ==
+    // roleId).findFirst().orElse(null);
+    // if (role != null) {
+    // this.roles.remove(role);
+    // role.getUsers().remove(this);
+    // }
+    // }
 
     // @Override
     // public Collection<? extends GrantedAuthority> getAuthorities() {
-    // return Collections.singleton(new SimpleGrantedAuthority(roles));
+    // Set<Role> roles = this.getRoles();
+    // List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    // for (Role role : roles) {
+    // authorities.add(new SimpleGrantedAuthority(role.toString()));
+    // }
+    // return authorities;
     // }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles = this.getRoles();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName().name()));
-        }
+        authorities.add(new SimpleGrantedAuthority(EUserRole.ROLE_USER.toString()));
         return authorities;
     }
 
     @Override
     public String getPassword() {
         return this.password;
+
     }
 
     @Override

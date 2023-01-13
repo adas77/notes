@@ -29,6 +29,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	// TODO: dev
+	compile("org.springframework.boot:spring-boot-devtools") 
+
 }
 
 tasks.named('test') {

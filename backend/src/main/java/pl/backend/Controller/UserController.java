@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import pl.backend.Model.User;
 import pl.backend.Service.UserService;
 
+@Slf4j
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("/user")
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -23,8 +25,9 @@ public class UserController {
         return userService.getAll();
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public void create(@RequestBody User user) {
         userService.create(user);
+        log.info("added");
     }
 }

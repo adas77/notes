@@ -1,12 +1,19 @@
 package pl.backend.Model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "role")
+@Table(name = "rolex")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -22,21 +29,19 @@ import lombok.Setter;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Enumerated(EnumType.STRING)
-    // @Column(length = 20)
-    private EUserRole name;
+    private Long id;
 
-    // @ManyToMany
-    // @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.PERSIST })
-    // @JoinColumn(name = "userx_id")
-    // private Set<User> user = new HashSet<>();
+    @Enumerated
+    private EUserRole role;
+    // @ManyToMany(fetch = FetchType.LAZY, cascade = {
+    //         CascadeType.PERSIST,
+    //         CascadeType.MERGE
+    // }, mappedBy = "roles")
+    // @JsonIgnore
+    // private Set<User> users = new HashSet<>();
 
-    public EUserRole getName() {
-        return this.name;
+    public Role(EUserRole role) {
+        this.role = role;
     }
 
-    public Role(EUserRole name) {
-        this.name = name;
-    }
 }
