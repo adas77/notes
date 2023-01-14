@@ -5,6 +5,8 @@ import { notesService } from '../api/noteService'
 import RadioButton from './RadioButton';
 import { NoteStatus } from '../types/note';
 import Pass from './Pass';
+// https://www.npmjs.com/package/sanitize-html
+import sanitizeHtml from 'sanitize-html';
 
 const Note = () => {
   const [value, setValue] = useState<string>('');
@@ -12,11 +14,23 @@ const Note = () => {
   const [values, setValues] = useState<string[]>([]);
   const [pass1, setPass1] = useState<string>("");
   const [pass2, setPass2] = useState<string>("");
-  const [letSend, setLetSend] = useState<boolean>(true);
+  const [letSend, setLetSend] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (noteStatus !== NoteStatus.PRIVATE_ENCODED) {
+      setPass1('')
+      setPass2('')
+    }
+
+    return () => {
+    }
+  }, [noteStatus])
+
+
+  // TODO
   const checkPass = () => {
     const analisePass = (pass: string) => {
-      if (pass.length < 6) { return false }
+      pass.length < 6 && setLetSend(false)
       return true
     }
     if (pass1 !== pass2) {
@@ -25,13 +39,13 @@ const Note = () => {
   }
 
   const handleSave = () => {
-    notesService.create(value, noteStatus,)
+    const clean = sanitizeHtml(value)
+    notesService.create(clean, noteStatus,)
     setValues(prev => [...prev, value])
     setValue('')
   }
 
   const show = (htmlContent: string) => {
-    // setValues(prev => [...prev, value])
     setValue(htmlContent)
   }
 
@@ -49,42 +63,34 @@ const Note = () => {
       <ReactQuill theme="snow" value={value} onChange={setValue} />
       <button onClick={handleSave}>SAVE</button>
       <RadioButton onClick={e => {
-        setLetSend(false)
-        setNoteStatus(NoteStatus.PRIVATE_ENCODED)
+        setLetSend(false);
+        setNoteStatus(NoteStatus.PRIVATE_ENCODED);
       }} name={'PRIVATE_ENCODED'} />
-      <RadioButton onClick={e => setNoteStatus(NoteStatus.PRIVATE)} name={'PRIVATE'} />
-      <RadioButton onClick={e => setNoteStatus(NoteStatus.PUBLIC)} name={'PUBLIC'} />
+      <RadioButton onClick={e => {
+        setLetSend(true)
+        setNoteStatus(NoteStatus.PRIVATE)
+      }} name={'PRIVATE'} />
+      <RadioButton onClick={e => {
+        setLetSend(true)
+        setNoteStatus(NoteStatus.PUBLIC)
+      }} name={'PUBLIC'} />
       {noteStatus ===
-        NoteStatus.PUBLIC &&
+
+        NoteStatus.PRIVATE_ENCODED &&
         <>
-          <Pass label={'Password'} />
-          <Pass label={'Confirm Password'} />
+          <Pass onChange={e => setPass1(e.currentTarget.value)} label={'Password'} />
+          <Pass onChange={e => setPass2(e.currentTarget.value)} label={'Confirm Password'} />
         </>
       }
       <br></br>
       noteStatus={noteStatus}
       <br />
       letSend={letSend.toString()}
+      <br />
+      pass1={pass1}
+      <br />
+      pass2={pass2}
 
-      {/* <div className="flex items-center mb-4">
-        <input id="default-radio-1" type="radio" value="" name="default-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-        <label htmlFor="default-radio-1" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default radio</label>
-      </div>
-      <div className="flex items-center mb-4">
-        <input id="default-radio-1" type="radio" value="" name="default-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-        <label htmlFor="default-radio-1" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default radio</label>
-      </div><div className="flex items-center mb-4">
-        <input id="default-radio-1" type="radio" value="" name="default-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-        <label htmlFor="default-radio-1" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default radio</label>
-      </div> */}
-      {/* <div className="flex items-center">
-        <input checked id="default-radio-2" type="radio" value="" name="default-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-        <label htmlFor="default-radio-2" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Checked state</label>
-      </div> */}
-      {/* <div className="flex items-center">
-        <input checked id="default-radio-2" type="radio" value="" name="default-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-        <label htmlFor="default-radio-2" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Checked state</label>
-      </div> */}
 
       {values.map((v, i) => <div onClick={() => show(v)} key={i}>NOTATKA NUMER:{i}
         <br></br>
