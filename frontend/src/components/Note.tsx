@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { notesService } from '../api/noteService'
 import RadioButton from './RadioButton';
-import { NoteStatus } from '../types/note';
+import { NoteType, NoteStatus } from '../types/note';
 import Pass from './Pass';
 // https://www.npmjs.com/package/sanitize-html
 import sanitizeHtml from 'sanitize-html';
@@ -15,7 +15,7 @@ import { backendApi } from '../api/http';
 const Note = () => {
   const [value, setValue] = useState<string>('');
   const [noteStatus, setNoteStatus] = useState<NoteStatus>(NoteStatus.PRIVATE);
-  const [values, setValues] = useState<string[]>([]);
+  const [values, setValues] = useState<NoteType[]>([]);
   const [pass1, setPass1] = useState<string>("");
   const [pass2, setPass2] = useState<string>("");
   const [letSend, setLetSend] = useState<boolean>(true);
@@ -49,7 +49,6 @@ const Note = () => {
     console.log(noteStatus)
     console.log(pass1)
     notesService.create(clean, noteStatus, pass1)
-    setValues(prev => [...prev, value])
     setValue('')
   }
 
@@ -66,10 +65,27 @@ const Note = () => {
   }, [value])
 
 
+  function handleFetchUser(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+
+    notesService.getAll().then(res => {
+      setValues([])
+      res.data.forEach((p: any) => {
+        console.log(p)
+        const note: NoteType = { username: p.username, text: p.note, status: p.noteStatus }
+        setValues(prev => [...prev, note])
+      });
+    })
+    // console.log("notes", note)
+
+  }
+
   return (
     <>
       <ReactQuill theme="snow" value={value} onChange={setValue} />
       <button onClick={handleSave}>SAVE</button>
+      <br />
+      <button onClick={handleFetchUser}>FETCH USER</button>
+
       <RadioButton onClick={e => {
         setNoteStatus(NoteStatus.PRIVATE_ENCODED);
       }} name={'PRIVATE_ENCODED'} />
@@ -97,10 +113,10 @@ const Note = () => {
       pass2={pass2}
 
 
-      {values.map((v, i) => <div onClick={() => show(v)} key={i}>NOTATKA NUMER:{i}
+      {values.map((v, i) => <div onClick={() => show(v.text ? v.text : "brak")} key={i}>NOTATKA NUMER:{i}
         <br></br>
         <br></br>
-        {v}<br></br>
+        {v.text ? v.text : "brak"}<br></br>
         <br></br></div>)}
     </>)
 }

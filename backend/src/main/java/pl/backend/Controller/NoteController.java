@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 import pl.backend.Config.JwtService;
+import pl.backend.Dto.NoteDto;
 import pl.backend.Model.Note;
 import pl.backend.Model.NoteStatus;
 import pl.backend.Service.NoteService;
+
 @Slf4j
 @RestController
 @RequestMapping("/note")
@@ -28,7 +30,6 @@ import pl.backend.Service.NoteService;
 public class NoteController {
     private final NoteService noteService;
     private final JwtService jwtService;
-
 
     @GetMapping("/{noteId}")
     public Note getNoteById(@PathVariable Long noteId) {
@@ -41,7 +42,7 @@ public class NoteController {
     }
 
     @PostMapping("/add")
-    public Note add(){
+    public Note add() {
         return new Note("ddd", NoteStatus.PRIVATE_ENCODED);
     }
 
@@ -54,43 +55,55 @@ public class NoteController {
         return noteService.getProtected(noteId, password);
     }
 
+    // @RequestMapping(value = "/users", method = RequestMethod.GET)
+    // public Set<Note> getAll(@RequestHeader(name = "Authorization") String token)
+    // {
+    // String username = jwtService.extractUsername(token);
+    // return noteService.getUserNotes(username);
+    // }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public Set<Note> getAll(@RequestHeader (name="Authorization") String token){
-        String username = jwtService.extractUsername(token);
-        return noteService.getNotes(username);
-    }
-
-    @RequestMapping(value = "",method = RequestMethod.POST)
-    public Note createNote(@RequestBody Note note, @RequestParam(name = "password", required = false) String password,@RequestHeader (name="Authorization") String token)
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public void createNote(@RequestBody Note note, @RequestParam(name = "password", required = false) String password,
+            @RequestHeader(name = "Authorization") String token)
             throws InvalidKeyException, NoSuchPaddingException,
             NoSuchAlgorithmException, BadPaddingException,
             IllegalBlockSizeException, InvalidKeySpecException {
-        log.info("username");
-        log.info(token);
-        log.error(token);
-        log.debug(token);
 
         String username = jwtService.extractUsername(token);
-        log.info(username);
 
-        return noteService.create(username,note, password);
+        noteService.create(username, note, password);
     }
 
-//    @RequestMapping( method = RequestMethod.POST)
-//    public Note createNote(@RequestBody Note note, @RequestParam(name = "password", required = false) String password,@RequestHeader (name="Authorization") String token)
-//            throws InvalidKeyException, NoSuchPaddingException,
-//            NoSuchAlgorithmException, BadPaddingException,
-//            IllegalBlockSizeException, InvalidKeySpecException {
-//        String username = jwtService.extractUsername(token);
-//
-//        return noteService.create(username,note, Optional.of(password));
-//    }
-//    @PostMapping()
-//    public Note createNote(@RequestBody Note note, @RequestParam(name = "password", required = false) String password)
-//            throws InvalidKeyException, NoSuchPaddingException,
-//            NoSuchAlgorithmException, InvalidAlgorithmParameterException, BadPaddingException,
-//            IllegalBlockSizeException, InvalidKeySpecException {
-//        return noteService.create(note, Optional.of(password));
-//    }
+    // @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping
+    public Set<NoteDto> getUserNotes(@RequestHeader(name = "Authorization") String token)
+            throws InvalidKeyException, NoSuchPaddingException,
+            NoSuchAlgorithmException, BadPaddingException,
+            IllegalBlockSizeException, InvalidKeySpecException {
+
+        String username = jwtService.extractUsername(token);
+
+        return noteService.getUserNotes(username);
+    }
+
+    // @RequestMapping( method = RequestMethod.POST)
+    // public Note createNote(@RequestBody Note note, @RequestParam(name =
+    // "password", required = false) String password,@RequestHeader
+    // (name="Authorization") String token)
+    // throws InvalidKeyException, NoSuchPaddingException,
+    // NoSuchAlgorithmException, BadPaddingException,
+    // IllegalBlockSizeException, InvalidKeySpecException {
+    // String username = jwtService.extractUsername(token);
+    //
+    // return noteService.create(username,note, Optional.of(password));
+    // }
+    // @PostMapping()
+    // public Note createNote(@RequestBody Note note, @RequestParam(name =
+    // "password", required = false) String password)
+    // throws InvalidKeyException, NoSuchPaddingException,
+    // NoSuchAlgorithmException, InvalidAlgorithmParameterException,
+    // BadPaddingException,
+    // IllegalBlockSizeException, InvalidKeySpecException {
+    // return noteService.create(note, Optional.of(password));
+    // }
 }

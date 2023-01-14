@@ -1,7 +1,10 @@
-export type Note = {
+export type NoteType = {
     id?: number,
     password?: number,
-    isProtected: boolean,
+    username?: string,
+    text?: string,
+    status?: string
+    // isProtected: boolean,
 }
 
 export enum NoteStatus {
