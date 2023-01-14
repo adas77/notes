@@ -29,7 +29,7 @@ public class HashNotesService {
 
     // https://www.baeldung.com/java-aes-encryption-decryption
     public String encrypt(String input, SecretKey key) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException, InvalidKeyException,
+            InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException {
 
         Cipher cipher = Cipher.getInstance(algorithm);

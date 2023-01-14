@@ -5,28 +5,28 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+//import javax.persistence.ElementCollection;
+//import javax.persistence.Entity;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.GenerationType;
+//import javax.persistence.Id;
+//import javax.persistence.Table;
+//import javax.persistence.UniqueConstraint;
+//import javax.validation.constraints.Email;
+//import javax.validation.constraints.NotBlank;
 
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
+@Builder
 @Entity
-@Table(name = "userx", uniqueConstraints = {
+@Table(name = "_user", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email"),
         @UniqueConstraint(columnNames = "username")
 })
@@ -46,32 +46,13 @@ public class User implements UserDetails {
     private String username;
     @NotBlank
     private String password;
+    @Enumerated(EnumType.STRING)
+    private EUserRole role;
     private LocalDateTime dateOfSignUp;
     private String ip;
     @ElementCollection
     private List<Note> notes;
-    // @ManyToMany(fetch = FetchType.LAZY,
-    // cascade = {
-    // CascadeType.PERSIST,
-    // CascadeType.MERGE
-    // })
-    // @JoinTable(name = "user_note",
-    // joinColumns = { @JoinColumn(name = "user_id") },
-    // inverseJoinColumns = { @JoinColumn(name = "note_id") })
-    // private Set<Note> notes = new HashSet<>();
 
-    // public void addNote(Note note) {
-    // this.notes.add(note);
-    // note.getUsers().add(this);
-    // }
-
-    // public void removeNote(Long noteId) {
-    // Note note = this.notes.stream().filter(n -> n.getId() ==
-    // noteId).findFirst().orElse(null);
-    // if (note != null) {
-    // this.notes.remove(note);
-    // note.getUsers().remove(this);
-    // }
 
     public User(String email, String username, String password) {
         this.username = username;

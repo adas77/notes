@@ -1,8 +1,8 @@
 package pl.backend.Model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 
 @Entity
 @Table(name = "note")
