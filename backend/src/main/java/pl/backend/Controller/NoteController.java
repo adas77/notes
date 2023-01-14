@@ -68,6 +68,8 @@ public class NoteController {
             IllegalBlockSizeException, InvalidKeySpecException {
         log.info("username");
         log.info(token);
+        log.error(token);
+        log.debug(token);
 
         String username = jwtService.extractUsername(token);
         log.info(username);

@@ -7,6 +7,10 @@ import { NoteStatus } from '../types/note';
 import Pass from './Pass';
 // https://www.npmjs.com/package/sanitize-html
 import sanitizeHtml from 'sanitize-html';
+import { backendApi } from '../api/http';
+
+
+
 
 const Note = () => {
   const [value, setValue] = useState<string>('');
@@ -14,7 +18,7 @@ const Note = () => {
   const [values, setValues] = useState<string[]>([]);
   const [pass1, setPass1] = useState<string>("");
   const [pass2, setPass2] = useState<string>("");
-  const [letSend, setLetSend] = useState<boolean>(false);
+  const [letSend, setLetSend] = useState<boolean>(true);
 
   useEffect(() => {
     if (noteStatus !== NoteStatus.PRIVATE_ENCODED) {
@@ -29,18 +33,22 @@ const Note = () => {
 
   // TODO
   const checkPass = () => {
-    const analisePass = (pass: string) => {
-      pass.length < 6 && setLetSend(false)
-      return true
+    if (noteStatus === NoteStatus.PRIVATE_ENCODED) {
+      if ((pass1 !== pass2) || (pass1.length < 6)) {
+        setLetSend(false)
+      }
     }
-    if (pass1 !== pass2) {
 
-    }
   }
 
   const handleSave = () => {
+    checkPass()
     const clean = sanitizeHtml(value)
-    notesService.create(clean, noteStatus,)
+    console.log(letSend)
+    console.log(clean)
+    console.log(noteStatus)
+    console.log(pass1)
+    notesService.create(clean, noteStatus, pass1)
     setValues(prev => [...prev, value])
     setValue('')
   }
@@ -63,15 +71,12 @@ const Note = () => {
       <ReactQuill theme="snow" value={value} onChange={setValue} />
       <button onClick={handleSave}>SAVE</button>
       <RadioButton onClick={e => {
-        setLetSend(false);
         setNoteStatus(NoteStatus.PRIVATE_ENCODED);
       }} name={'PRIVATE_ENCODED'} />
       <RadioButton onClick={e => {
-        setLetSend(true)
         setNoteStatus(NoteStatus.PRIVATE)
       }} name={'PRIVATE'} />
       <RadioButton onClick={e => {
-        setLetSend(true)
         setNoteStatus(NoteStatus.PUBLIC)
       }} name={'PUBLIC'} />
       {noteStatus ===
