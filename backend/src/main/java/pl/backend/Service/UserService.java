@@ -12,8 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import pl.backend.Model.EUserRole;
-import pl.backend.Model.Role;
+//import pl.backend.Model.EUserRole;
+//import pl.backend.Model.Role;
 import pl.backend.Model.User;
 import pl.backend.Repository.UserRepository;
 
@@ -30,13 +30,13 @@ public class UserService {
     public void create(User user) {
 
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalStateException(String.format("User with email=%d already exists", user.getEmail()));
+            throw new IllegalStateException(String.format("User with email=%s already exists", user.getEmail()));
         } else if (userRepository.existsByUsername(user.getUsername())) {
-            throw new IllegalStateException(String.format("User with username=%d already exists", user.getUsername()));
+            throw new IllegalStateException(String.format("User with username=%s already exists", user.getUsername()));
         }
 
-        Role r = new Role(EUserRole.ROLE_USER);
-        Set<Role> roles = new HashSet<Role>(Arrays.asList(r));
+//        Role r = new Role(EUserRole.ROLE_USER);
+//        Set<Role> roles = new HashSet<Role>(Arrays.asList(r));
         // User newUser = new User(user.getEmail(), user.getUsername(),
         // passwordEncoder.encode(user.getPassword()), roles);
         User newUser = new User(user.getEmail(), user.getUsername(), passwordEncoder.encode(user.getPassword()));

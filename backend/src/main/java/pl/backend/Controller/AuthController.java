@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.backend.Auth.AuthRequest;
 import pl.backend.Auth.AuthResponse;
 import pl.backend.Auth.RegisterRequest;
+import pl.backend.Config.JwtService;
 import pl.backend.Service.AuthService;
 
 @RestController

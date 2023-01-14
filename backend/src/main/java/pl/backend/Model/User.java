@@ -1,9 +1,7 @@
 package pl.backend.Model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 //import javax.persistence.ElementCollection;
 //import javax.persistence.Entity;
@@ -50,9 +48,17 @@ public class User implements UserDetails {
     private EUserRole role;
     private LocalDateTime dateOfSignUp;
     private String ip;
-    @ElementCollection
-    private List<Note> notes;
+    @OneToMany(mappedBy="user")
+    private Set<Note> notes = new HashSet<>();
 
+    protected void setNotes(Set<Note> notes) {
+        this.notes = notes;
+    }
+
+    public void addToNotes(Note note) {
+        note.setUser(this);
+        this.notes.add(note);
+    }
 
     public User(String email, String username, String password) {
         this.username = username;
@@ -62,35 +68,7 @@ public class User implements UserDetails {
 
     }
 
-    // private void addAllRoles(Set<Role> roles) {
-    // for (Role r : roles) {
-    // this.addRole(r);
-    // }
-    // }
 
-    // public void addRole(Role role) {
-    // this.roles.add(role);
-    // role.getUsers().add(this);
-    // }
-
-    // public void removeRole(long roleId) {
-    // Role role = this.roles.stream().filter(r -> r.getId() ==
-    // roleId).findFirst().orElse(null);
-    // if (role != null) {
-    // this.roles.remove(role);
-    // role.getUsers().remove(this);
-    // }
-    // }
-
-    // @Override
-    // public Collection<? extends GrantedAuthority> getAuthorities() {
-    // Set<Role> roles = this.getRoles();
-    // List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-    // for (Role role : roles) {
-    // authorities.add(new SimpleGrantedAuthority(role.toString()));
-    // }
-    // return authorities;
-    // }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
