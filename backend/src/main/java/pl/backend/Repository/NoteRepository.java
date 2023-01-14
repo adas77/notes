@@ -1,13 +1,16 @@
 package pl.backend.Repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import pl.backend.Model.Note;
+import pl.backend.Model.NoteStatus;
 
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Long> {
-    // Optional<User> findByUsername(String username);
+    Optional<Note> findByNoteStatus(NoteStatus status);
 
     // Boolean existsByUsername(String username);
 

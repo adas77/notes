@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.List;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.backend.Model.Note;
+import pl.backend.Model.NoteStatus;
 import pl.backend.Repository.NoteRepository;
 
 @Service
@@ -48,6 +50,7 @@ public class NoteService {
         return noteRepository.save(note);
     }
 
+    // TODO USER ID - auth
     public Note getById(Long id) {
         return noteRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "xd not found"));
@@ -62,6 +65,10 @@ public class NoteService {
                 hashNotesService.getKeyFromPassword(password));
 
         return decrypted;
+    }
+
+    public List<Note> getPublic() {
+        return noteRepository.findByNoteStatus(NoteStatus.PUBLIC);
     }
 
     public Note update(Long id, Note newNote) {
