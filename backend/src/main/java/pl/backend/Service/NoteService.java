@@ -4,7 +4,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,7 +27,6 @@ import pl.backend.Repository.UserRepository;
 @Service
 @AllArgsConstructor
 @Slf4j
-// @AllArgsConstructor
 public class NoteService {
     private final HashNotesService hashNotesService;
     private final NoteRepository noteRepository;
