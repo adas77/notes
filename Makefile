@@ -28,6 +28,17 @@ up:
 xup:
 	docker-compose -f ${COMPOSE_FILE_TEST} up
 
+xdown:
+	docker-compose -f ${COMPOSE_FILE_TEST} down
+
+xstop:
+	docker-compose -f ${COMPOSE_FILE_TEST} stop
+
+xdownf:
+	docker-compose -f ${COMPOSE_FILE_TEST} down --rmi all -v --remove-orphans
+
+xrm:
+	docker-compose -f ${COMPOSE_FILE_TEST} rm 
 
 down:
 	docker-compose -f ${COMPOSE_FILE} down

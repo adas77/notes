@@ -75,8 +75,17 @@ public class NoteService {
         return decrypted;
     }
 
-    public List<Note> getPublic() {
-        return noteRepository.findByNoteStatus(NoteStatus.PUBLIC);
+    public Set<NoteDto> getPublic() {
+        // noteRepository.findAll().stream().forEach(n ->
+        // log.info(n.getNoteStatus().toString()));
+        return noteRepository.findAll().stream().filter(n -> NoteStatus.PUBLIC.equals(n.getNoteStatus()))
+                .map(n -> new NoteDto(n.getId(), n.getUser().getUsername(), n.getNote(), n.getNoteStatus()))
+                .collect(Collectors.toSet());
+        // .toList();
+        // log.info(NoteStatus.PUBLIC.name());
+        // log.info(NoteStatus.PUBLIC.toString());
+        // noteRepository.findAll().forEach(n -> log.info(n.getNoteStatus().name()));
+        // return List.of(new Note("null", NoteStatus.PRIVATE));
     }
 
     public Set<NoteDto> getUserNotes(String username) {

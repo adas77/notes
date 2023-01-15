@@ -74,7 +74,7 @@ const Note = () => {
         setValues(prev => [...prev, note])
       });
     })
-
+    // https://cdn.pixabay.com/photo/2016/02/19/15/46/labrador-retriever-1210559__480.jpg
     return () => {
     }
   }, [])

@@ -3,6 +3,7 @@ import { authService } from '../api/authService'
 import { Auth } from '../types/auth'
 import delay from '../utils/login'
 import Navigation from './Navigation'
+import sanitize from 'sanitize-html'
 
 type Props = {}
 
@@ -27,17 +28,17 @@ const Login = (props: Props) => {
             return;
         }
         const credentials: Auth = {
-            username: user,
-            password: pass1,
+            username: sanitize(user),
+            password: sanitize(pass1),
         }
         authService.login(credentials)
 
-        // setWait(true)
-        // delay(4000).then(() => {
-            // setWait(false)
-        // }
-        // )
-        ;
+        setWait(true)
+        delay(4000).then(() => {
+            setWait(false)
+        }
+        )
+            ;
 
 
     }

@@ -43,9 +43,9 @@ public class NoteController {
     }
 
     @GetMapping("/public")
-    public List<Note> getPublicNotes() {
-        // return noteService.getPublic();
-        return List.of(new Note("null", NoteStatus.PUBLIC));
+    public Set<NoteDto> getPublicNotes() {
+        return noteService.getPublic();
+        // return List.of(new Note("null", NoteStatus.PUBLIC));
     }
 
     @PostMapping("/add")

@@ -1,5 +1,6 @@
 package pl.backend.Config;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
+import pl.backend.Auth.RegisterRequest;
 import pl.backend.Repository.UserRepository;
+import pl.backend.Service.AuthService;
 
 @Configuration
 @RequiredArgsConstructor
@@ -43,5 +46,12 @@ public class AppConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    // @Bean
+    // public CommandLineRunner loadData(AuthService authService) {
+    //     return (args) -> {
+    //         authService.register(new RegisterRequest("12345678", "a@gmail.com", "12345678"));
+    //     };
+    // }
 
 }

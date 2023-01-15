@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { notesService } from '../api/noteService'
-import RadioButton from './RadioButton';
-import { NoteType, NoteStatus } from '../types/note';
+import { notesService } from '../api/noteService';
+import { NoteStatus, NoteType } from '../types/note';
 import Pass from './Pass';
+import RadioButton from './RadioButton';
 // https://www.npmjs.com/package/sanitize-html
 import sanitizeHtml from 'sanitize-html';
-import { backendApi } from '../api/http';
 import Button from './Button';
 import Navigation from './Navigation';
 
@@ -45,10 +44,8 @@ const Create = () => {
     const handleSave = () => {
         checkPass()
         const clean = sanitizeHtml(value)
-        console.log(clean)
-        console.log(noteStatus)
-        console.log(pass1)
-        notesService.create(clean, noteStatus, pass1)
+        const cleanPass = sanitizeHtml(pass1)
+        notesService.create(clean, noteStatus, cleanPass)
         setValue('')
     }
 
@@ -87,12 +84,12 @@ const Create = () => {
 
 
 
-
+            {/* 
             {values.map((v, i) => <div onClick={() => show(v.text ? v.text : "brak")} key={i}>NOTATKA NUMER:{i}
                 <br></br>
                 <br></br>
                 {v.text ? v.text : "brak"}<br></br>
-                <br></br></div>)}
+                <br></br></div>)} */}
         </>)
 }
 
