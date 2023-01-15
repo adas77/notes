@@ -45,10 +45,10 @@ public class NoteController {
         // return List.of(new Note("null", NoteStatus.PUBLIC));
     }
 
-    @PostMapping("/add")
-    public Note add() {
-        return new Note("ddd", NoteStatus.PRIVATE_ENCODED);
-    }
+    // @PostMapping("/add")
+    // public Note add() {
+    //     return new Note("ddd", NoteStatus.PRIVATE_ENCODED);
+    // }
 
     @GetMapping("/protected/{noteId}")
     public String getProtectedNote(@PathVariable Long noteId,

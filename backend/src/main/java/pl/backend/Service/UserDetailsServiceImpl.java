@@ -21,16 +21,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    // @Autowired
-    // public UserDetailsServiceImpl(HttpServletRequest httpServletRequest) {
-    // this.httpServletRequest = httpServletRequest;
-    // }
-
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
 
-        
         Optional<User> userOptional = userRepository.findByUsername(username);
         if (!userOptional.isPresent()) {
             throw new UsernameNotFoundException("Could not find user");
@@ -39,16 +33,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return user;
     }
 
-//     private String getClientIP() {
-//         String xfHeader = httpServletRequest.getHeader("X-Forwarded-For");
-//         if (xfHeader == null || xfHeader.isEmpty() || !xfHeader.contains(httpServletRequest.getRemoteAddr())) {
-//             return httpServletRequest.getRemoteAddr();
-//         }
-//         // return xfHeader.split(",")[0];
-//         // HttpServletRequest request = ( RequestContextHolder.currentRequestAttributes()).
-//         // .getRequest();
-
-// // String ip = request.getRemoteAddr();
-//         // return xfHeader;
-//     }
 }

@@ -46,6 +46,10 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private EUserRole role;
+    private Integer failedAttempt;
+    private Boolean enabled;
+    private Boolean accountNonLocked;
+    private Date lockTime;
     private LocalDateTime dateOfSignUp;
     private String ip;
     @OneToMany(mappedBy = "user")
@@ -86,7 +90,6 @@ public class User implements UserDetails {
         return this.username;
     }
 
-    // TODO: userDetails
     @Override
     public boolean isAccountNonExpired() {
         return true;

@@ -1,36 +1,50 @@
-// package pl.backend.Service;
+package pl.backend.Service;
 
-// import java.time.LocalDateTime;
-// import java.util.List;
+import java.util.Date;
 
-// // import javax.management.relation.Role;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-// import org.springframework.security.crypto.password.PasswordEncoder;
-// import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
+import pl.backend.Model.User;
+import pl.backend.Repository.UserRepository;
 
-// import lombok.AllArgsConstructor;
-// import pl.backend.Model.User;
-// import pl.backend.Repository.UserRepository;
+@Service
+@Transactional
+public class UserService {
 
-// @Service
-// @AllArgsConstructor
-// public class UserService {
-//     private final UserRepository userRepository;
-//     private PasswordEncoder passwordEncoder;
+    public static final int MAX_FAILED_ATTEMPTS = 3;
+    private static final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000;
+    @Autowired
+    private UserRepository repo;
 
-//     public List<User> getAll() {
-//         return userRepository.findAll();
-//     }
+    public void increaseFailedAttempts(User user) {
+        int newFailAttempts = user.getFailedAttempt() + 1;
+        repo.updateFailedAttempts(newFailAttempts, user.getUsername());
+    }
 
-//     public void create(User user) {
+    public void resetFailedAttempts(String username) {
+        repo.updateFailedAttempts(0, username);
+    }
 
-//         if (userRepository.existsByEmail(user.getEmail())) {
-//             throw new IllegalStateException(String.format("User with email=%s already exists", user.getEmail()));
-//         } else if (userRepository.existsByUsername(user.getUsername())) {
-//             throw new IllegalStateException(String.format("User with username=%s already exists", user.getUsername()));
-//         }
-//         User newUser = new User(user.getEmail(), user.getUsername(), passwordEncoder.encode(user.getPassword()));
-//         newUser.setDateOfSignUp(LocalDateTime.now());
-//         userRepository.save(newUser);
-//     }
-// }
+    public void lock(User user) {
+        user.setAccountNonLocked(false);
+        user.setLockTime(new Date());
+
+        repo.save(user);
+    }
+
+    public boolean unlockWhenTimeExpired(User user) {
+        long lockTimeInMillis = user.getLockTime().getTime();
+        long currentTimeInMillis = System.currentTimeMillis();
+
+        if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
+            user.setAccountNonLocked(true);
+            user.setLockTime(null);
+            user.setFailedAttempt(0);
+            repo.save(user);
+            return true;
+        }
+        return false;
+    }
+}
