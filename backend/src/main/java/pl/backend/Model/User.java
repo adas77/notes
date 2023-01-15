@@ -48,7 +48,7 @@ public class User implements UserDetails {
     private EUserRole role;
     private LocalDateTime dateOfSignUp;
     private String ip;
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy = "user")
     private Set<Note> notes = new HashSet<>();
 
     protected void setNotes(Set<Note> notes) {
@@ -67,8 +67,6 @@ public class User implements UserDetails {
         this.dateOfSignUp = LocalDateTime.now();
 
     }
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

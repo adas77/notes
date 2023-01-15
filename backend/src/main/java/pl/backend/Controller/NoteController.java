@@ -4,7 +4,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.List;
 import java.util.Set;
 
 import javax.crypto.BadPaddingException;
@@ -22,14 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import pl.backend.Config.JwtService;
 import pl.backend.Dto.NoteDto;
 import pl.backend.Model.Note;
 import pl.backend.Model.NoteStatus;
 import pl.backend.Service.NoteService;
 
-@Slf4j
 @RestController
 @RequestMapping("/note")
 @RequiredArgsConstructor

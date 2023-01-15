@@ -5,8 +5,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -52,7 +50,6 @@ public class NoteService {
         userRepository.save(user);
     }
 
-    // TODO USER ID - auth
     public Note getById(Long id) {
         return noteRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "xd not found"));
@@ -76,16 +73,9 @@ public class NoteService {
     }
 
     public Set<NoteDto> getPublic() {
-        // noteRepository.findAll().stream().forEach(n ->
-        // log.info(n.getNoteStatus().toString()));
         return noteRepository.findAll().stream().filter(n -> NoteStatus.PUBLIC.equals(n.getNoteStatus()))
                 .map(n -> new NoteDto(n.getId(), n.getUser().getUsername(), n.getNote(), n.getNoteStatus()))
                 .collect(Collectors.toSet());
-        // .toList();
-        // log.info(NoteStatus.PUBLIC.name());
-        // log.info(NoteStatus.PUBLIC.toString());
-        // noteRepository.findAll().forEach(n -> log.info(n.getNoteStatus().name()));
-        // return List.of(new Note("null", NoteStatus.PRIVATE));
     }
 
     public Set<NoteDto> getUserNotes(String username) {
@@ -94,15 +84,15 @@ public class NoteService {
                 .collect(Collectors.toSet());
     }
 
-    public Note update(Long id, Note newNote) {
-        if (!Objects.equals(id, newNote.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ops");
-        }
-        return noteRepository.save(newNote);
-    }
+    // public Note update(Long id, Note newNote) {
+    // if (!Objects.equals(id, newNote.getId())) {
+    // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ops");
+    // }
+    // return noteRepository.save(newNote);
+    // }
 
-    public void delete(Long id) {
-        noteRepository.deleteById(id);
-    }
+    // public void delete(Long id) {
+    // noteRepository.deleteById(id);
+    // }
 
 }

@@ -1,10 +1,7 @@
 package pl.backend.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 // import javax.management.relation.Role;
 
@@ -35,8 +32,8 @@ public class UserService {
             throw new IllegalStateException(String.format("User with username=%s already exists", user.getUsername()));
         }
 
-//        Role r = new Role(EUserRole.ROLE_USER);
-//        Set<Role> roles = new HashSet<Role>(Arrays.asList(r));
+        // Role r = new Role(EUserRole.ROLE_USER);
+        // Set<Role> roles = new HashSet<Role>(Arrays.asList(r));
         // User newUser = new User(user.getEmail(), user.getUsername(),
         // passwordEncoder.encode(user.getPassword()), roles);
         User newUser = new User(user.getEmail(), user.getUsername(), passwordEncoder.encode(user.getPassword()));

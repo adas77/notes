@@ -3,7 +3,6 @@ package pl.backend.Service;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
@@ -14,7 +13,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -63,10 +61,10 @@ public class HashNotesService {
         return secret;
     }
 
-    private IvParameterSpec generateIv() {
-        byte[] iv = new byte[16];
-        new SecureRandom().nextBytes(iv);
-        return new IvParameterSpec(iv);
-    }
+    // private IvParameterSpec generateIv() {
+    // byte[] iv = new byte[16];
+    // new SecureRandom().nextBytes(iv);
+    // return new IvParameterSpec(iv);
+    // }
 
 }
