@@ -55,6 +55,7 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         // config.setAllowedOrigins(List.of("http://localhost:3000"));
+        // TODO: Fixme
         config.setAllowedOrigins(List.of("https://localhost:443", "http://localhost:3000", "*"));
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");

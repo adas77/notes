@@ -1,24 +1,25 @@
-# spirng-template
+# OD Notatki
 ## Specyfikacja
 - Backend
   - `Java 17`
   - `Spring Boot` & `Spring Security`
 - Frontend
-  - `...`
+  - `React TS`
 - DB
   - `POSTGRESQL`
 - Server
   - `Nginx`
 - Run
   - `Docker` & `docker-compose`
-
 ## Konfiguracja
-File: `.env`
+Dodać do `etc/hosts`: `127.0.0.1	notes.pl`
+Pliki: `.env` i `./frontend/.env`
 ## Run `docker-compose`
-With `Makefile`:
-- `make build` budowanie kontenerów
-- `make up` uruchomienie kontenerów
-- `make db` połączenie z bazą danych `POSTGRES` przez konsolę
+`Makefile`:
+- `make apbuild` `lub` `docker-compose -f docker-compose.final.yml build` budowanie kontenerów
+- `make apup` `lub` `docker-compose -f docker-compose.final.yml up`   uruchomienie kontenerów
+- `make db` `lub` `docker-compose --f docker-compose.final.yml run apdibi bash -c "psql -h apdibi -d pilewski-baza -U postgres"` połączenie z bazą danych `POSTGRES` przez konsolę
+Link: `https://notes.pl/notes`
 ## Bibliografia
 - [https://jwt.io/](https://jwt.io/) jwt
 - [https://www.baeldung.com/spring-security-registration-password-encoding-bcrypt](https://www.baeldung.com/spring-security-registration-password-encoding-bcrypt) bcrypt
