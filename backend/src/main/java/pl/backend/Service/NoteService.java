@@ -58,11 +58,17 @@ public class NoteService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "xd not found"));
     }
 
-    public String getProtected(Long noteId, String password) throws InvalidKeyException, NoSuchPaddingException,
+    public String getProtected(Long noteId, String password, String username)
+            throws InvalidKeyException, NoSuchPaddingException,
             NoSuchAlgorithmException, InvalidAlgorithmParameterException, BadPaddingException,
             IllegalBlockSizeException, InvalidKeySpecException {
         Note protectedNote = noteRepository.findById(noteId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ops"));
+
+        if (!username.equals(protectedNote.getUser().getUsername())) {
+            // TODO: Honeypot?
+            return "Nie wolno";
+        }
         String decrypted = hashNotesService.decrypt(protectedNote.getNote(),
                 hashNotesService.getKeyFromPassword(password));
 
@@ -75,7 +81,7 @@ public class NoteService {
 
     public Set<NoteDto> getUserNotes(String username) {
         return noteRepository.findAll().stream().filter(n -> username.equals(n.getUser().getUsername()))
-                .map(n -> new NoteDto(n.getUser().getUsername(), n.getNote(), n.getNoteStatus()))
+                .map(n -> new NoteDto(n.getId(), n.getUser().getUsername(), n.getNote(), n.getNoteStatus()))
                 .collect(Collectors.toSet());
     }
 

@@ -9,6 +9,7 @@ import pl.backend.Model.NoteStatus;
 @Getter
 @Setter
 public class NoteDto {
+    private Long id;
     private String username;
     private String note;
     private NoteStatus noteStatus;

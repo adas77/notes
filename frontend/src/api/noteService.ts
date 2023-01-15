@@ -13,18 +13,27 @@ export const notesService = {
             headers: { 'Authorization': authHeader() }
         })
     },
-
-    getById(id: number) {
-        console.log('Get note', id)
-        return client.get(`/${id}`, {
+    getPublic() {
+        console.log('Fetching notes')
+        return client.get('/public', {
             headers: { 'Authorization': authHeader() }
+        })
+    },
+
+    getById(id: number, notePassword: string) {
+        console.log('Get note', id)
+        return client.get(`/protected/${id}`, {
+            headers: { 'Authorization': authHeader() },
+            params: {
+                password: notePassword
+            }
         })
     },
 
     create(noteText: string, noteStatus: NoteStatus, notePassword?: string) {
 
         console.log('Create note', noteText)
-        const f = client.post('', { "note": noteText, "noteStatus": noteStatus }, {
+        return client.post('', { "note": noteText, "noteStatus": noteStatus }, {
             headers: { 'Authorization': authHeader() },
             params: {
                 password: notePassword

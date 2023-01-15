@@ -20,21 +20,7 @@ export const authService = {
         // console.log('res', response)
         return client.post('/authenticate', { "username": auth.username, "password": auth.password })
     },
-    // async login(auth: Auth) {
-    //     const response = await axios
-    //         .post("http://localhost:8080/auth/authenticate", {
-    //             "username": auth.username, "password": auth.password
-    //         });
-    //     console.log("ds");
-    //     console.log(response.data.accessToken);
-    //     const { token } = response.data
-    //     if (token) {
-    //         localStorage.setItem("token", JSON.stringify(token));
-    //         console.log(localStorage.getItem("token"))
-    //     }
-    //     return response.data;
-    // },
-
+    
     register(auth: Auth) {
         console.log('Create auth', auth)
         return client.post('/register', { "username": auth.username, "email": auth.email, "password": auth.password })

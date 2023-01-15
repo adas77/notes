@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { notesService } from '../api/noteService'
-import RadioButton from './RadioButton';
-import { NoteType, NoteStatus } from '../types/note';
+import { notesService } from '../api/noteService';
+import { NoteStatus, NoteType } from '../types/note';
 import Pass from './Pass';
+import RadioButton from './RadioButton';
 // https://www.npmjs.com/package/sanitize-html
 import sanitizeHtml from 'sanitize-html';
-import { backendApi } from '../api/http';
+import Navigation from './Navigation';
+import OneNote from './OneNote';
 
 
 
@@ -44,7 +45,7 @@ const Note = () => {
   const handleSave = () => {
     checkPass()
     const clean = sanitizeHtml(value)
-    console.log(letSend)
+    // console.log(letSend)
     console.log(clean)
     console.log(noteStatus)
     console.log(pass1)
@@ -64,37 +65,30 @@ const Note = () => {
     }
   }, [value])
 
-
-  function handleFetchUser(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
-
+  useEffect(() => {
     notesService.getAll().then(res => {
       setValues([])
       res.data.forEach((p: any) => {
         console.log(p)
-        const note: NoteType = { username: p.username, text: p.note, status: p.noteStatus }
+        const note: NoteType = { id: p.id, username: p.username, text: p.note, status: p.noteStatus }
         setValues(prev => [...prev, note])
       });
     })
-    // console.log("notes", note)
 
-  }
+    return () => {
+    }
+  }, [])
 
+
+  
   return (
     <>
+      <Navigation />
       <ReactQuill theme="snow" value={value} onChange={setValue} />
-      <button onClick={handleSave}>SAVE</button>
-      <br />
-      <button onClick={handleFetchUser}>FETCH USER</button>
+      <h2 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white"> Kliknij na notatke i zobacz text</h2>
 
-      <RadioButton onClick={e => {
-        setNoteStatus(NoteStatus.PRIVATE_ENCODED);
-      }} name={'PRIVATE_ENCODED'} />
-      <RadioButton onClick={e => {
-        setNoteStatus(NoteStatus.PRIVATE)
-      }} name={'PRIVATE'} />
-      <RadioButton onClick={e => {
-        setNoteStatus(NoteStatus.PUBLIC)
-      }} name={'PUBLIC'} />
+
+
       {noteStatus ===
 
         NoteStatus.PRIVATE_ENCODED &&
@@ -103,22 +97,21 @@ const Note = () => {
           <Pass onChange={e => setPass2(e.currentTarget.value)} label={'Confirm Password'} />
         </>
       }
-      <br></br>
-      noteStatus={noteStatus}
-      <br />
-      letSend={letSend.toString()}
-      <br />
-      pass1={pass1}
-      <br />
-      pass2={pass2}
 
 
-      {values.map((v, i) => <div onClick={() => show(v.text ? v.text : "brak")} key={i}>NOTATKA NUMER:{i}
-        <br></br>
-        <br></br>
-        {v.text ? v.text : "brak"}<br></br>
-        <br></br></div>)}
-    </>)
+
+      {values.map((v, i) =>
+
+        <section key={i} className="border-8 bg-white dark:bg-gray-900">
+          <div onClick={() => setValue(v.text || "")} className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <OneNote id={v.id} text={v.text} username={v.username} status={v.status} />
+          </div>
+        </section>
+      )
+      }
+
+    </>
+  )
 }
 
 export default Note

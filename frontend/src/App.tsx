@@ -1,49 +1,56 @@
 import "quill/dist/quill.snow.css"; // Add css for snow theme
-import './App.css';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Create from "./components/Create";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Error from "./pages/Error";
 import Note from "./components/Note";
-import { authService } from './api/authService'
-import { notesService } from './api/noteService'
-import { Auth } from "./types/auth";
+import Public from "./components/Public";
 
 const App = () => {
-  const credentials: Auth = {
-    username: "toja",
-    email: "toja@gmail.com",
-    password: "toja",
-  }
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Note />,
+      errorElement: <Error />
+    },
+    {
+      path: "/notes",
+      element: <Note />,
+      errorElement: <Error />
+    },
+    {
+      path: "/public",
+      element: <Public />,
+      errorElement: <Error />
+    },
+    {
+      path: "/login",
+      element: <Login />,
+      errorElement: <Error />
+    },
+    {
+      path: "/register",
+      element: <Register />,
+      errorElement: <Error />
+    },
+    {
+      path: "/create",
+      element: <Create />,
+      errorElement: <Error />
+    },
+
+
+  ])
+
+
   return (
 
-    <>
-      <button onClick={() => authService.login(credentials)}>login</button>
-      <br />
-      <button onClick={() => authService.logout(credentials)}>logout</button>
-      <br />
-      <button onClick={() => authService.register(credentials)}>register</button>
-      <br />
 
-      {/* <img src="https://w1.pngwing.com/pngs/370/239/png-transparent-chinese-beagle-chinese-crested-dog-puppy-maltese-dog-pet-sitting-bark-dog-walking.png" alt="pies" /> */}
+    <RouterProvider router={router} />
 
-      {/* gegie */}
-      <Note />
-
-    </>
   );
 }
 
-
-
-// function App() {
-
-//   return (
-//     <>
-
-//       <p>Nosiema:{a}:</p>
-//       <button onClick={() => notesService.create("hello")
-//       }>create</button>
-//       <Note/>
-//       <img src="https://w1.pngwing.com/pngs/370/239/png-transparent-chinese-beagle-chinese-crested-dog-puppy-maltese-dog-pet-sitting-bark-dog-walking.png" alt="pies" />
-//     </>
-//   );
-// }
 
 export default App;

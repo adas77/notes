@@ -4,7 +4,9 @@ export type NoteType = {
     username?: string,
     text?: string,
     status?: string
-    // isProtected: boolean,
+    link?: string
+    cmdDecode?: () => {
+    }
 }
 
 export enum NoteStatus {
