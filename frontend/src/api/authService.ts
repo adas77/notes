@@ -20,13 +20,13 @@ export const authService = {
         // console.log('res', response)
         return client.post('/authenticate', { "username": auth.username, "password": auth.password })
     },
-    
+
     register(auth: Auth) {
         console.log('Create auth', auth)
         return client.post('/register', { "username": auth.username, "email": auth.email, "password": auth.password })
     }
     ,
-    logout(auth: Auth) {
+    logout() {
         localStorage.removeItem("user")
         localStorage.removeItem("token")
     }

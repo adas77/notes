@@ -52,7 +52,10 @@ public class User implements UserDetails {
     private Date lockTime;
     private LocalDateTime dateOfSignUp;
     private String ip;
-    @OneToMany(mappedBy = "user")
+    // @OneToMany(mappedBy = "user")
+    // @OneToMany(mappedBy = "user")
+    // @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Note> notes = new HashSet<>();
 
     protected void setNotes(Set<Note> notes) {

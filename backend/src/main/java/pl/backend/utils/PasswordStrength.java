@@ -36,7 +36,13 @@ public class PasswordStrength {
     public static boolean validateCommonPass(String pass) {
         List<String> passwords = List.of(
                 "password",
+                "11111111",
+                "qazwsxedc",
+                "qwertyuiop",
+                "qwertyuiopasdfghjklzxcvbnm",
+                "1qaz2wsx3edc",
                 "12345678",
+                "87654321",
                 "baseball",
                 "football",
                 "jennifer",
@@ -45,6 +51,7 @@ public class PasswordStrength {
                 "michelle",
                 "sunshine",
                 "123456789",
+                "987654321",
                 "12345678910",
                 "starwars",
                 "computer",
@@ -59,12 +66,12 @@ public class PasswordStrength {
                 "internet",
                 "mercedes",
                 "bigdaddy"
-
         );
 
         if (passwords.contains(pass)) {
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
 }

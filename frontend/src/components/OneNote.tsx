@@ -10,16 +10,15 @@ import sanitize from 'sanitize-html'
 const OneNote = (props: NoteType) => {
     const [pass, setPass] = useState<string>("")
     const [encoded, setEncoded] = useState<string>("")
-
     return (
-
         <div className="border-2 p-2 max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">
             {/* <a href='#'> */}
             <div className="flex items-center justify-between m-4">
                 <Image src={props.link} alt="undefined" />
             </div>
             <h2 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white"> {props.username}</h2>
-
+            <h2 className="mb-4 text-2xl tracking-tight font-bold text-gray-900 dark:text-white">
+                {props.date}</h2>
             {
                 props.status === NoteStatus.PRIVATE_ENCODED ?
                     <>

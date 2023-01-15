@@ -5,14 +5,26 @@ import delay from '../utils/login'
 import Navigation from './Navigation'
 import sanitize from 'sanitize-html'
 import Button from './Button'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 type Props = {}
 
 const Login = (props: Props) => {
+    const location = useLocation();
+    const navigate = useNavigate();
+
     const [pass1, setPass1] = useState<string>("")
     const [user, setUser] = useState<string>("")
     const [wait, setWait] = useState<boolean>(false)
+    const [loginFailed, setLoginFailed] = useState<boolean>(false)
 
+    useEffect(() => {
+        console.log(localStorage)
+        // if (localStorage.getItem("user")) {
+        //     const { from } = location.state || { from: { pathname: "/" } };
+        //     navigate(from, { replace: true });
+        // }
+    }, [localStorage]);
 
     useEffect(() => {
         console.log("pass1", pass1)
@@ -32,10 +44,10 @@ const Login = (props: Props) => {
             username: sanitize(user),
             password: sanitize(pass1),
         }
-        authService.login(credentials)
+        authService.login(credentials).catch(e => setLoginFailed(true))
 
         setWait(true)
-        delay(4000).then(() => {
+        delay(5000).then(() => {
             setWait(false)
         })
     }
@@ -60,6 +72,11 @@ const Login = (props: Props) => {
                     <big>Prosze czkac...</big>
 
                 </>}
+            {loginFailed ? 'Logowanie się nie powiodło'
+                :
+                ''
+                // <Navigate to="/notes" replace state={{ from: location }} />
+            }
         </>
     )
 }

@@ -3,8 +3,9 @@ export type NoteType = {
     password?: number,
     username?: string,
     text?: string,
-    status?: string
-    link?: string
+    status?: string,
+    link?: string,
+    date?: string,
     cmdDecode?: () => {
     }
 }

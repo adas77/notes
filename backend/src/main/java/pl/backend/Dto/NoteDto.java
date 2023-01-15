@@ -1,5 +1,7 @@
 package pl.backend.Dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,4 +15,5 @@ public class NoteDto {
     private String username;
     private String note;
     private NoteStatus noteStatus;
+    private LocalDateTime date;
 }

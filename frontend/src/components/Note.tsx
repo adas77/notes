@@ -8,7 +8,6 @@ import OneNote from './OneNote';
 
 const Note = () => {
   const [value, setValue] = useState<string>('');
-  // const [noteStatus, setNoteStatus] = useState<NoteStatus>(NoteStatus.PRIVATE);
   const [values, setValues] = useState<NoteType[]>([]);
 
   useEffect(() => {
@@ -16,7 +15,7 @@ const Note = () => {
       setValues([])
       res.data.forEach((p: any) => {
         console.log(p)
-        const note: NoteType = { id: p.id, username: p.username, text: p.note, status: p.noteStatus }
+        const note: NoteType = { id: p.id, username: p.username, text: p.note, status: p.noteStatus, date: p.date }
         setValues(prev => [...prev, note])
       });
     })
@@ -33,7 +32,7 @@ const Note = () => {
       {values.map((v, i) =>
         <section key={i} className="border-8 bg-white dark:bg-gray-900">
           <div onClick={() => setValue(v.text || "")} className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-            <OneNote id={v.id} text={v.text} username={v.username} status={v.status} />
+            <OneNote id={v.id} date={v.date} text={v.text} username={v.username} status={v.status} />
           </div>
         </section>
       )

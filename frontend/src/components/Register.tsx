@@ -12,6 +12,7 @@ const Register = (props: Props) => {
     const [user, setUser] = useState<string>("")
     const [email, setEmail] = useState<string>("")
     const [wait, setWait] = useState<boolean>(false)
+    const [registerError, setRegisterError] = useState<boolean>(false)
 
     useEffect(() => {
         console.log("pass1", pass1)
@@ -34,11 +35,13 @@ const Register = (props: Props) => {
             username: sanitize(user),
             password: sanitize(user),
         }
+        authService.register(credentials).catch(e => setRegisterError(true))
+
         setWait(true)
-        delay(4000).then(() => {
-            authService.register(credentials)
+        delay(5000).then(() => {
             setWait(false)
         }
+
         );
 
     }
@@ -67,6 +70,9 @@ const Register = (props: Props) => {
                     <big>Prosze czkac...</big>
 
                 </>}
+            {
+                registerError && 'Rejestracja się nie powiodła'
+            }
         </>
     )
 }

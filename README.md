@@ -28,3 +28,15 @@ With `Makefile`:
 - [https://stackoverflow.com/questions/73617743/is-springboot-data-jpa-repository-safe-against-sql-injection](https://stackoverflow.com/questions/73617743/is-springboot-data-jpa-repository-safe-against-sql-injection) jpa interface injection
 - [https://security.snyk.io/vuln/SNYK-JS-QUILL-1245047](https://security.snyk.io/vuln/SNYK-JS-QUILL-1245047) quill lib vulnerabilities
 - [https://security.snyk.io/package/npm/quill](https://security.snyk.io/package/npm/quill) quill lib vulnerabilities
+
+## Dane logowania
+Użytkownicy w bazie (u=username,p=pass)
+
+```
+String u1 = "qwertyuiop123456789";
+String e1 = "qwertyuiop@gmail.com";
+String p1 = "!as#(Hseh5ejddBBvdSFseg%%g";
+String u2 = "_" + u1;
+String e2 = "_" + e1;
+String p2 = "_" + p1;
+```

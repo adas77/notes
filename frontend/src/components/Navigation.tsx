@@ -1,3 +1,6 @@
+import { useNavigate } from "react-router-dom"
+import Button from "./Button"
+import { authService } from "../api/authService"
 
 
 type Props = {
@@ -28,8 +31,8 @@ const Navigation = () => {
     //     return [s.isAuth]
     // })
     // const { cmdLogout } = useGlobalDispatch()
-
-    const items = [{ href: '/notes', name: 'Notatki' }, { href: '/create', name: 'Stwórz notatki' }, { href: '/public', name: 'Publiczne notatki' },]
+    const navigate = useNavigate()
+    const items = [{ href: '/notes', name: 'Notatki' }, { href: '/create', name: 'Stwórz notatki' }, { href: '/public', name: 'Publiczne notatki' }, { href: '/login', name: 'Zaloguj' }, { href: '/register', name: 'Zarejestruj' }]
 
     return (
         <>
@@ -46,6 +49,10 @@ const Navigation = () => {
                                     <a href={i.href} className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">{i.name}</a>
                                 </li>)
                             }
+                            <Button onClick={() => {
+                                authService.logout()
+                                navigate("/login")
+                            }}>Wyloguj</Button>
                         </ul>
                         {/* <Button onClick={e => isAuth && cmdLogout()} variant='outline'><Link to={isAuth ? "/widgets" : "/login"}>{isAuth ? lang.logout : lang.login}</Link></Button> */}
 
