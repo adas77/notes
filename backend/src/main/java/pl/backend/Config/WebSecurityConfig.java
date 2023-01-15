@@ -51,19 +51,11 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    // @Bean
-    // AuthenticationProvider authenticationProvider() {
-    // final DaoAuthenticationProvider daoAuthenticationProvider = new
-    // DaoAuthenticationProvider();
-    // daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-    // daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-    // return daoAuthenticationProvider;
-    // }
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000"));
+        // config.setAllowedOrigins(List.of("http://localhost:3000"));
+        config.setAllowedOrigins(List.of("https://localhost:443", "http://localhost:3000", "*"));
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
 
@@ -71,5 +63,4 @@ public class WebSecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-
 }

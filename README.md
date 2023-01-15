@@ -33,3 +33,5 @@ With `Makefile`:
 - [https://www.learnbestcoding.com/post/17/ssl-https-with-nginx](https://www.learnbestcoding.com/post/17/ssl-https-with-nginx) nginx conf
 - [https://raw.githubusercontent.com/react-boilerplate/react-boilerplate/master/app/.nginx.conf](https://raw.githubusercontent.com/react-boilerplate/react-boilerplate/master/app/.nginx.conf) nginx conf
 - [https://stackoverflow.com/questions/21113154/spring-boot-ddl-auto-generator](https://stackoverflow.com/questions/21113154/spring-boot-ddl-auto-generator) hibernate run
+- [http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_password_file](http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_password_file) nginx ssl pass
+- [https://stackoverflow.com/questions/67525595/cross-origin-request-blocked-the-same-origin-policy-disallows-reading-the-remot](https://stackoverflow.com/questions/67525595/cross-origin-request-blocked-the-same-origin-policy-disallows-reading-the-remot)

@@ -34,20 +34,22 @@ services:
     ports:
       - ${AP_POSTGRES_PORT}:5432
     healthcheck:
-        test: "pg_isready -U postgres"
-        interval: 10s
-        timeout: 5s
-        retries: 5
+      test: "pg_isready -U postgres"
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   frontend:
     build: ./frontend
     container_name: ${AP_REACT_CONTAINER_NAME}
+    volumes:
+      - ./cert:/etc/nginx/cert
     depends_on:
       - backend
     ports:
       - ${AP_REACT_PORT}:3000
+      - 443:443
     restart: always
 
 # volumes:
 #   apdibi:
-   
