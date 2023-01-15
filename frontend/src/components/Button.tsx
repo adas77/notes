@@ -10,13 +10,7 @@ const Button = ({
     ...props }: Props) => {
     return (
         <button
-            className={clsx(
-                "w-32 h-10",
-                "h-fit w-fit rounded-lg text-xs font-medium transition-all",
-                "disabled:cursor-not-allowed disabled:opacity-50",
-                "dark: text-white",
-                "bg-blue-500 border border-brand text-brand hover:border-brand-dark hover:bg-brand-light disabled:border-brand disabled:bg-transparent"
-            )}
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             {...props}>
             {children}
         </button>

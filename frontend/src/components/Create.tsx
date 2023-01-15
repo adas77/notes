@@ -5,18 +5,14 @@ import { notesService } from '../api/noteService';
 import { NoteStatus, NoteType } from '../types/note';
 import Pass from './Pass';
 import RadioButton from './RadioButton';
-// https://www.npmjs.com/package/sanitize-html
+
 import sanitizeHtml from 'sanitize-html';
 import Button from './Button';
 import Navigation from './Navigation';
 
-
-
-
 const Create = () => {
     const [value, setValue] = useState<string>('');
     const [noteStatus, setNoteStatus] = useState<NoteStatus>(NoteStatus.PRIVATE);
-    const [values, setValues] = useState<NoteType[]>([]);
     const [pass1, setPass1] = useState<string>("");
     const [pass2, setPass2] = useState<string>("");
     const [letSend, setLetSend] = useState<boolean>(true);
@@ -45,23 +41,15 @@ const Create = () => {
         checkPass()
         const clean = sanitizeHtml(value)
         const cleanPass = sanitizeHtml(pass1)
-        notesService.create(clean, noteStatus, cleanPass)
+        letSend && notesService.create(clean, noteStatus, cleanPass)
         setValue('')
     }
-
-    const show = (htmlContent: string) => {
-        setValue(htmlContent)
-    }
-
-
-
 
     return (
         <>
             <Navigation />
             <ReactQuill theme="snow" value={value} onChange={setValue} />
             <br />
-
             <RadioButton onClick={e => {
                 setNoteStatus(NoteStatus.PRIVATE_ENCODED);
             }} name={'PRIVATE_ENCODED'} />
@@ -72,7 +60,6 @@ const Create = () => {
                 setNoteStatus(NoteStatus.PUBLIC)
             }} name={'PUBLIC'} />
             {noteStatus ===
-
                 NoteStatus.PRIVATE_ENCODED &&
                 <>
                     <Pass onChange={e => setPass1(e.currentTarget.value)} label={'Password'} />
@@ -80,16 +67,9 @@ const Create = () => {
                 </>
 
             }
-            <Button onClick={handleSave}>save</Button>
 
+            <Button onClick={handleSave}>Save</Button>
 
-
-            {/* 
-            {values.map((v, i) => <div onClick={() => show(v.text ? v.text : "brak")} key={i}>NOTATKA NUMER:{i}
-                <br></br>
-                <br></br>
-                {v.text ? v.text : "brak"}<br></br>
-                <br></br></div>)} */}
         </>)
 }
 

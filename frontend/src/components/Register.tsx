@@ -41,9 +41,7 @@ const Register = (props: Props) => {
         }
         );
 
-
     }
-
 
     return (
         <>

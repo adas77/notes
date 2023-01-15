@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { notesService } from '../api/noteService';
 import { NoteStatus, NoteType } from '../types/note';
 import Pass from './Pass';
-import RadioButton from './RadioButton';
-// https://www.npmjs.com/package/sanitize-html
 import sanitizeHtml from 'sanitize-html';
 import Navigation from './Navigation';
 import OneNote from './OneNote';

@@ -1,6 +1,4 @@
 
-import { Link } from 'react-router-dom';
-import Button from './Button';
 
 type Props = {
     href: string,
@@ -14,7 +12,7 @@ type Lang = {
     href: string,
     logout?: boolean,
 }
-
+// TODO: navigation + login state
 // const NavigationItem = (props: Props) => {
 //     const { cmdLogout } = useGlobalDispatch()
 //     return (
