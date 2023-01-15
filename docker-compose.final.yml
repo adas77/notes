@@ -1,0 +1,53 @@
+services:
+  backend:
+    build: ./backend
+    container_name: ${AP_SPRING_CONTAINER_NAME}
+    depends_on:
+      apdibi:
+        condition: service_healthy
+    environment:
+      - APP_SPRING_DATASOURCE_URL=postgresql://apdibi:5432/${AP_POSTGRES_DB_NAME}
+      - APP_SPRING_DATASOURCE_USERNAME=${AP_POSTGRES_DB_USER_NAME}
+      - APP_SPRING_DATASOURCE_PASSWORD=${AP_POSTGRES_DB_PASSWORD_SECRET}
+      - HIBERNATE_DDL_AUTO=${AP_HIBERNATE_DDL_AUTO}
+    ports:
+      - ${AP_SPRING_PORT}:8080
+    restart: always
+
+  #   # volumes:
+  #   #   - apdibi:/var/lib/postgresql/data
+  #   healthcheck:
+  #     test: "pg_isready -U postgres"
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #     # start_period: 5s
+
+  apdibi:
+    container_name: ${AP_POSTGRES_CONTAINER_NAME}
+    image: postgres:15.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${AP_POSTGRES_DB_PASSWORD_SECRET}
+      - POSTGRES_USER=${AP_POSTGRES_DB_USER_NAME}
+      - POSTGRES_DB=${AP_POSTGRES_DB_NAME}
+    ports:
+      - ${AP_POSTGRES_PORT}:5432
+    healthcheck:
+        test: "pg_isready -U postgres"
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+  frontend:
+    build: ./frontend
+    container_name: ${AP_REACT_CONTAINER_NAME}
+    depends_on:
+      - backend
+    ports:
+      - ${AP_REACT_PORT}:3000
+    restart: always
+
+# volumes:
+#   apdibi:
+   

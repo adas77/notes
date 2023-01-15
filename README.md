@@ -28,3 +28,8 @@ With `Makefile`:
 - [https://stackoverflow.com/questions/73617743/is-springboot-data-jpa-repository-safe-against-sql-injection](https://stackoverflow.com/questions/73617743/is-springboot-data-jpa-repository-safe-against-sql-injection) jpa interface injection
 - [https://security.snyk.io/vuln/SNYK-JS-QUILL-1245047](https://security.snyk.io/vuln/SNYK-JS-QUILL-1245047) quill lib vulnerabilities
 - [https://security.snyk.io/package/npm/quill](https://security.snyk.io/package/npm/quill) quill lib vulnerabilities
+- [https://generatepasswords.org/how-to-calculate-entropy/](https://generatepasswords.org/how-to-calculate-entropy/) password strength
+- [https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt) most common passwords
+- [https://www.learnbestcoding.com/post/17/ssl-https-with-nginx](https://www.learnbestcoding.com/post/17/ssl-https-with-nginx) nginx conf
+- [https://raw.githubusercontent.com/react-boilerplate/react-boilerplate/master/app/.nginx.conf](https://raw.githubusercontent.com/react-boilerplate/react-boilerplate/master/app/.nginx.conf) nginx conf
+- [https://stackoverflow.com/questions/21113154/spring-boot-ddl-auto-generator](https://stackoverflow.com/questions/21113154/spring-boot-ddl-auto-generator) hibernate run

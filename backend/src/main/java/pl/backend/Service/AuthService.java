@@ -32,11 +32,12 @@ public class AuthService {
 
         public AuthResponse register(RegisterRequest request) {
 
+                // TODO: FIXME !!!!
                 log.info(request.getPassword());
-                if (!PasswordStrength.validateCommonPass(request.getPassword())
-                                || !PasswordStrength.validatePassStrength(request.getPassword())) {
-                        throw new IllegalArgumentException();
-                }
+                // if (!PasswordStrength.validateCommonPass(request.getPassword())
+                // || !PasswordStrength.validatePassStrength(request.getPassword())) {
+                // throw new IllegalArgumentException();
+                // }
 
                 var user = User.builder()
                                 .username(request.getUsername())
