@@ -33,7 +33,7 @@ Dodać do `etc/hosts`: `127.0.0.1	notes.pl`
 - [https://security.snyk.io/vuln/SNYK-JS-QUILL-1245047](https://security.snyk.io/vuln/SNYK-JS-QUILL-1245047) quill lib vulnerabilities
 - [https://security.snyk.io/package/npm/quill](https://security.snyk.io/package/npm/quill) quill lib vulnerabilities
 - [https://medium.com/shoutloudz/spring-boot-upload-and-download-images-using-jpa-b1c9ef174dc0](https://medium.com/shoutloudz/spring-boot-upload-and-download-images-using-jpa-b1c9ef174dc0)
-- - [https://generatepasswords.org/how-to-calculate-entropy/](https://generatepasswords.org/how-to-calculate-entropy/) password strength
+- [https://generatepasswords.org/how-to-calculate-entropy/](https://generatepasswords.org/how-to-calculate-entropy/) password strength
 - [https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt) most common passwords
 - [https://www.learnbestcoding.com/post/17/ssl-https-with-nginx](https://www.learnbestcoding.com/post/17/ssl-https-with-nginx) nginx conf
 - [https://raw.githubusercontent.com/react-boilerplate/react-boilerplate/master/app/.nginx.conf](https://raw.githubusercontent.com/react-boilerplate/react-boilerplate/master/app/.nginx.conf) nginx conf
