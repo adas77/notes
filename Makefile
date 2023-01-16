@@ -1,13 +1,13 @@
 
 include .env
 
-apbuild:
+b:
 	docker-compose -f ${COMPOSE_FILE_RUN} build
 
-apup:
+up:
 	docker-compose -f ${COMPOSE_FILE_RUN} up
 
-apdb:
+db:
 	docker-compose -f ${COMPOSE_FILE_RUN} run apdibi bash -c "psql -h apdibi -d ${AP_POSTGRES_DB_NAME} -U ${AP_POSTGRES_DB_USER_NAME}"
 
 apdown:
