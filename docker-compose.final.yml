@@ -14,15 +14,6 @@ services:
       - ${AP_SPRING_PORT}:8080
     restart: always
 
-  #   # volumes:
-  #   #   - apdibi:/var/lib/postgresql/data
-  #   healthcheck:
-  #     test: "pg_isready -U postgres"
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-  #     # start_period: 5s
-
   apdibi:
     container_name: ${AP_POSTGRES_CONTAINER_NAME}
     image: postgres:15.1-alpine
@@ -48,7 +39,5 @@ services:
       - backend
     ports:
       - 443:443
+      - ${AP_REACT_PORT}:3000
     restart: always
-
-# volumes:
-#   apdibi:
