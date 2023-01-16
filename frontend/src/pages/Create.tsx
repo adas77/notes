@@ -3,13 +3,13 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { notesService } from '../api/noteService';
 import { NoteStatus, NoteType } from '../types/note';
-import Pass from './Pass';
-import RadioButton from './RadioButton';
+import Pass from '../components/Pass';
+import RadioButton from '../components/RadioButton';
 
 import sanitizeHtml from 'sanitize-html';
-import Button from './Button';
-import Navigation from './Navigation';
-import UploadImage from './UploadImage';
+import Button from '../components/Button';
+import Navigation from '../components/Navigation';
+import UploadImage from '../components/UploadImage';
 
 const Create = () => {
     const [value, setValue] = useState<string>('');

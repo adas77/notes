@@ -1,18 +1,15 @@
 import { useState } from 'react'
+import sanitize from 'sanitize-html'
+import { notesService } from '../api/noteService'
 import { NoteStatus, NoteType } from '../types/note'
 import Button from './Button'
 import Image from './Image'
-import { notesService } from '../api/noteService'
-import sanitize from 'sanitize-html'
-
-
 
 const OneNote = (props: NoteType) => {
     const [pass, setPass] = useState<string>("")
     const [encoded, setEncoded] = useState<string>("")
     return (
         <div className="border-2 p-2 max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">
-            {/* <a href='#'> */}
             <div className="flex items-center justify-between m-4">
                 <Image src={props.link} alt="undefined" />
             </div>
@@ -43,8 +40,6 @@ const OneNote = (props: NoteType) => {
             }
 
         </div>
-
-
     )
 }
 

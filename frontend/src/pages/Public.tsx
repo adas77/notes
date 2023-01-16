@@ -1,74 +1,20 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { default as sanitize } from 'sanitize-html';
 import { notesService } from '../api/noteService';
-import { NoteStatus, NoteType } from '../types/note';
-import Pass from './Pass';
-import sanitizeHtml from 'sanitize-html';
-import Navigation from './Navigation';
-import OneNote from './OneNote';
-import Button from './Button';
-import Image from './Image';
-import axios from 'axios';
-import sanitize from 'sanitize-html';
-
-
-
+import { NoteType } from '../types/note';
+import Button from '../components/Button';
+import Navigation from '../components/Navigation';
+import OneNote from '../components/OneNote';
 
 const Public = () => {
     const [value, setValue] = useState<string>('');
-    const [noteStatus, setNoteStatus] = useState<NoteStatus>(NoteStatus.PRIVATE);
     const [values, setValues] = useState<NoteType[]>([]);
-    const [pass1, setPass1] = useState<string>("");
-    const [pass2, setPass2] = useState<string>("");
     const [imgs, setImgs] = useState<any[]>([]);
-    const [img, setImg] = useState<any>();
     const [imgLink, setImgLink] = useState<string>("");
-    const [letSend, setLetSend] = useState<boolean>(true);
-
-    useEffect(() => {
-        if (noteStatus !== NoteStatus.PRIVATE_ENCODED) {
-            setPass1('')
-            setPass2('')
-        }
-
-        return () => {
-        }
-    }, [noteStatus])
-
-
-    // TODO
-    const checkPass = () => {
-        if (noteStatus === NoteStatus.PRIVATE_ENCODED) {
-            if ((pass1 !== pass2) || (pass1.length < 6)) {
-                setLetSend(false)
-            }
-        }
-
-    }
-
-    const handleSave = () => {
-        checkPass()
-        const clean = sanitizeHtml(value)
-        // console.log(letSend)
-        console.log(clean)
-        console.log(noteStatus)
-        console.log(pass1)
-        notesService.create(clean, noteStatus, pass1)
-        setValue('')
-    }
-
-    const show = (htmlContent: string) => {
-        setValue(htmlContent)
-    }
-
-    useEffect(() => {
-        console.log(value)
-
-        return () => {
-
-        }
-    }, [value])
+    const [noImg, setNoImg] = useState<boolean>();
 
     useEffect(() => {
         notesService.getPublic().then(res => {
@@ -92,48 +38,29 @@ const Public = () => {
             <ReactQuill theme="snow" value={value} onChange={setValue} />
             <br />
             <br />
-            <h2 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white"> Kliknij na notatke i zobacz text</h2>
-
-
-
-            {noteStatus ===
-
-                NoteStatus.PRIVATE_ENCODED &&
-                <>
-                    <Pass onChange={e => setPass1(e.currentTarget.value)} label={'Password'} />
-                    <Pass onChange={e => setPass2(e.currentTarget.value)} label={'Confirm Password'} />
-                </>
-            }
+            <h2 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white"> Kliknij na notatke i zobacz text w Markdownie</h2>
             <br />
             <div className="mb-6 p-3 b-7">
-                <label htmlFor="text" className="block mb-2  text-sm font-medium text-gray-900 dark:text-white">Your <b>Username</b></label>
+                <label htmlFor="text" className="block mb-2  text-sm font-medium text-gray-900 dark:text-white">Zgadnij <b>Obrazek</b> po nazwie pliku</label>
                 <input onChange={e => setImgLink(e.currentTarget.value)} type="text" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Zgadnij obrazek po nazwie" required></input>
                 <Button onClick={() => {
-                    setImg(null)
+                    setNoImg(false)
                     axios.get(`http://localhost:8080/image/${sanitize(imgLink)}`).then(response => {
-                        // setImg(response.config.url)
                         setImgs((prev: any) => [...prev, response.config.url])
                         console.log(response.config.url)
-                    });
+                    }).catch(e => { setNoImg(true) });
                 }} >Zatwierdź nazwę</Button>
                 <br />
+                {noImg && 'Nie znaleziono'}
                 <br />
-                {/* {img && < Image src={img} />} */}
                 {imgs && imgs.map((i: string | undefined) =>
-
-
                     <div className="flex flex-row-reverse  ">
                         <img className='w-10 h-10 border-2 border-white rounded-full dark:border-gray-800' src={i} />
                     </div>
-
-
-
-
                 )}
             </div>
 
             {values.map((v, i) =>
-
                 <section key={i} className="border-8 bg-white dark:bg-gray-900">
                     <div onClick={() => setValue(v.text || "")} className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                         <OneNote id={v.id} text={v.text} username={v.username} status={v.status} />
@@ -141,7 +68,6 @@ const Public = () => {
                 </section>
             )
             }
-
         </>
     )
 }

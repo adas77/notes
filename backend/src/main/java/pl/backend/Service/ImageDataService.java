@@ -28,18 +28,6 @@ public class ImageDataService {
 
         return new ImageUploadResponse("Image uploaded successfully: " +
                 file.getOriginalFilename());
-
-    }
-
-    @Transactional
-    public ImageData getInfoByImageByName(String name) {
-        Optional<ImageData> dbImage = imageDataRepository.findByName(name);
-
-        return ImageData.builder()
-                .name(dbImage.get().getName())
-                .type(dbImage.get().getType())
-                .imageData(ImageUtil.decompressImage(dbImage.get().getImageData())).build();
-
     }
 
     @Transactional

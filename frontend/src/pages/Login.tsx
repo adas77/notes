@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { authService } from '../api/authService'
 import { Auth } from '../types/auth'
 import delay from '../utils/login'
-import Navigation from './Navigation'
+import Navigation from '../components/Navigation'
 import sanitize from 'sanitize-html'
-import Button from './Button'
+import Button from '../components/Button'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 type Props = {}
@@ -17,6 +17,7 @@ const Login = (props: Props) => {
     const [user, setUser] = useState<string>("")
     const [wait, setWait] = useState<boolean>(false)
     const [loginFailed, setLoginFailed] = useState<boolean>(false)
+    const [loggedIn, setLoggedIn] = useState<boolean>(false)
 
     useEffect(() => {
         console.log(localStorage)
@@ -44,7 +45,7 @@ const Login = (props: Props) => {
             username: sanitize(user),
             password: sanitize(pass1),
         }
-        authService.login(credentials).catch(e => setLoginFailed(true))
+        authService.login(credentials).then(res => setLoggedIn(true)).catch(e => setLoginFailed(true))
 
         setWait(true)
         delay(5000).then(() => {
@@ -54,6 +55,8 @@ const Login = (props: Props) => {
 
     return (
         <>
+            {loggedIn && <Navigate to="/notes" replace state={{ from: location }} />}
+
             <Navigation />
             <form onSubmit={e => handleSubmit(e)}>
                 <div className="mb-6">
@@ -75,7 +78,6 @@ const Login = (props: Props) => {
             {loginFailed ? 'Logowanie się nie powiodło'
                 :
                 ''
-                // <Navigate to="/notes" replace state={{ from: location }} />
             }
         </>
     )

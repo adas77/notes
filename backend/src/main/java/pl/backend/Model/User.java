@@ -3,24 +3,13 @@ package pl.backend.Model;
 import java.time.LocalDateTime;
 import java.util.*;
 
-//import javax.persistence.ElementCollection;
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.Table;
-//import javax.persistence.UniqueConstraint;
-//import javax.validation.constraints.Email;
-//import javax.validation.constraints.NotBlank;
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 
 @Builder
 @Entity
@@ -52,9 +41,6 @@ public class User implements UserDetails {
     private Date lockTime;
     private LocalDateTime dateOfSignUp;
     private String ip;
-    // @OneToMany(mappedBy = "user")
-    // @OneToMany(mappedBy = "user")
-    // @OneToMany(fetch = FetchType.LAZY)
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Note> notes = new HashSet<>();
 

@@ -21,15 +21,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class HashNotesService {
         private final String algorithm = "AES";
-        // private final IvParameterSpec iv = generateIv();
-        private final String salt = "12345678";
+        private final String salt = "Pxt)DLaGngQV5v!gS-LIJA@vv(g177zpV.nHA5WYKx1*QG-YhytODC!Jf.7uTsG9";
 
         public String encrypt(String input, SecretKey key) throws NoSuchPaddingException, NoSuchAlgorithmException,
                         InvalidKeyException,
                         BadPaddingException, IllegalBlockSizeException {
 
                 Cipher cipher = Cipher.getInstance(algorithm);
-                // cipher.init(Cipher.ENCRYPT_MODE, key, iv);
                 cipher.init(Cipher.ENCRYPT_MODE, key);
                 byte[] cipherText = cipher.doFinal(input.getBytes());
                 return Base64.getEncoder()
@@ -43,7 +41,6 @@ public class HashNotesService {
 
                 Cipher cipher = Cipher.getInstance(algorithm);
                 cipher.init(Cipher.DECRYPT_MODE, key);
-                // cipher.init(Cipher.DECRYPT_MODE, key, iv);
                 byte[] plainText = cipher.doFinal(Base64.getDecoder()
                                 .decode(cipherText));
                 return new String(plainText);
@@ -58,11 +55,4 @@ public class HashNotesService {
                                 .getEncoded(), algorithm);
                 return secret;
         }
-
-        // private IvParameterSpec generateIv() {
-        // byte[] iv = new byte[16];
-        // new SecureRandom().nextBytes(iv);
-        // return new IvParameterSpec(iv);
-        // }
-
 }

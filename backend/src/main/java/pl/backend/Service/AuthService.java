@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import pl.backend.Auth.AuthRequest;
 import pl.backend.Auth.AuthResponse;
 import pl.backend.Auth.RegisterRequest;
@@ -18,11 +17,9 @@ import pl.backend.Config.JwtService;
 import pl.backend.Model.EUserRole;
 import pl.backend.Model.User;
 import pl.backend.Repository.UserRepository;
-import pl.backend.utils.PasswordStrength;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class AuthService {
         private final UserRepository repository;
         private final UserService userService;
@@ -31,13 +28,6 @@ public class AuthService {
         private final AuthenticationManager authenticationManager;
 
         public AuthResponse register(RegisterRequest request) {
-
-                // log.info(request.getPassword());
-                // if (!PasswordStrength.validateCommonPass(request.getPassword())
-                //                 || !PasswordStrength.validatePassStrength(request.getPassword())) {
-                //         throw new IllegalArgumentException();
-                // }
-
                 var user = User.builder()
                                 .username(request.getUsername())
                                 .email(request.getEmail())
@@ -56,12 +46,6 @@ public class AuthService {
         }
 
         public AuthResponse authenticate(AuthRequest request) {
-                log.info("jestem00");
-
-                // authenticationManager.authenticate(
-                // new UsernamePasswordAuthenticationToken(
-                // request.getUsername(),
-                // request.getPassword()));
                 User user = repository.findByUsername(request.getUsername())
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN));
 
@@ -76,8 +60,6 @@ public class AuthService {
                                                         request.getPassword()));
 
                         var jwtToken = jwtService.generateToken(user);
-                        log.info("token" + jwtToken);
-
                         AuthResponse authResponse = AuthResponse.builder()
                                         .token(jwtToken)
                                         .build();
@@ -87,19 +69,14 @@ public class AuthService {
                         }
                         return authResponse;
                 } catch (Exception e) {
-                        // String exception = "";
                         if (user.isEnabled() && user.isAccountNonLocked()) {
                                 if (user.getFailedAttempt() < UserService.MAX_FAILED_ATTEMPTS - 1) {
                                         userService.increaseFailedAttempts(user);
                                 } else {
                                         userService.lock(user);
-                                        // exception = "Your account has been locked due to "
-                                        // + UserService.MAX_FAILED_ATTEMPTS + " failed attempts.";
                                 }
                         } else if (!user.isAccountNonLocked()) {
-                                if (userService.unlockWhenTimeExpired(user)) {
-                                        // exception = "Your account has been unlocked. Please try to login again.";
-                                }
+                                userService.unlockWhenTimeExpired(user);
                         }
                         repository.save(user);
                         throw new ResponseStatusException(HttpStatus.FORBIDDEN);

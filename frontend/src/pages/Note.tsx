@@ -3,25 +3,21 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { notesService } from '../api/noteService';
 import { NoteType } from '../types/note';
-import Navigation from './Navigation';
-import OneNote from './OneNote';
+import Navigation from '../components/Navigation';
+import OneNote from '../components/OneNote';
 
 const Note = () => {
   const [value, setValue] = useState<string>('');
   const [values, setValues] = useState<NoteType[]>([]);
 
-
-
   useEffect(() => {
     notesService.getAll().then(res => {
       setValues([])
       res.data.forEach((p: any) => {
-        console.log(p)
         const note: NoteType = { id: p.id, username: p.username, text: p.note, status: p.noteStatus, date: p.date }
         setValues(prev => [...prev, note])
       });
     })
-    // https://cdn.pixabay.com/photo/2016/02/19/15/46/labrador-retriever-1210559__480.jpg
     return () => {
     }
   }, [])

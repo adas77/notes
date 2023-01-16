@@ -68,8 +68,7 @@ public class NoteService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "ops"));
 
         if (!username.equals(protectedNote.getUser().getUsername())) {
-            // TODO: Honeypot?
-            return "Nie wolno";
+            return "";
         }
         String decrypted = hashNotesService.decrypt(protectedNote.getNote(),
                 hashNotesService.getKeyFromPassword(password));
@@ -90,16 +89,5 @@ public class NoteService {
                         n.getDateTime()))
                 .collect(Collectors.toSet());
     }
-
-    // public Note update(Long id, Note newNote) {
-    // if (!Objects.equals(id, newNote.getId())) {
-    // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ops");
-    // }
-    // return noteRepository.save(newNote);
-    // }
-
-    // public void delete(Long id) {
-    // noteRepository.deleteById(id);
-    // }
 
 }

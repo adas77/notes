@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { authService } from '../api/authService'
 import { Auth } from '../types/auth'
 import delay from '../utils/login'
-import Navigation from './Navigation'
+import Navigation from '../components/Navigation'
 import sanitize from 'sanitize-html'
-import UploadImage from './UploadImage'
+import UploadImage from '../components/UploadImage'
 
 type Props = {}
 
@@ -15,20 +15,11 @@ const Register = (props: Props) => {
     const [wait, setWait] = useState<boolean>(false)
     const [registerError, setRegisterError] = useState<boolean>(false)
 
-    useEffect(() => {
-        console.log("pass1", pass1)
-        return () => {
-        }
-    }, [pass1])
-
-
-
-
     function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
         console.log("f")
         e.preventDefault()
 
-        if (pass1.length < 6 || user.length < 6 || email.length < 6) {
+        if (pass1.length < 8 || user.length < 6 || email.length < 6) {
             return;
         }
         const credentials: Auth = {
@@ -37,14 +28,11 @@ const Register = (props: Props) => {
             password: sanitize(user),
         }
         authService.register(credentials).catch(e => setRegisterError(true))
-
         setWait(true)
         delay(5000).then(() => {
             setWait(false)
         }
-
         );
-
     }
 
     return (
