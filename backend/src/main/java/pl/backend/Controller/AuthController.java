@@ -13,6 +13,7 @@ import pl.backend.Auth.AuthRequest;
 import pl.backend.Auth.AuthResponse;
 import pl.backend.Auth.RegisterRequest;
 import pl.backend.Service.AuthService;
+import pl.backend.utils.PasswordStrength;
 
 @RestController
 @RequestMapping("auth")
@@ -25,7 +26,12 @@ public class AuthController {
     public ResponseEntity<AuthResponse> register(
             @RequestBody RegisterRequest request) throws InterruptedException {
         TimeUnit.SECONDS.sleep(4);
-        return ResponseEntity.ok(authService.register(request));
+        if (PasswordStrength.validateCommonPass(request.getPassword())
+                && PasswordStrength.validatePassStrength(request.getPassword())) {
+            return ResponseEntity.ok(authService.register(request));
+        } else {
+            throw new IllegalAccessError();
+        }
     }
 
     @PostMapping("/authenticate")

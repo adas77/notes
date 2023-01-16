@@ -23,7 +23,9 @@ import lombok.RequiredArgsConstructor;
 import pl.backend.Config.JwtService;
 import pl.backend.Dto.NoteDto;
 import pl.backend.Model.Note;
+import pl.backend.Service.HashNotesService;
 import pl.backend.Service.NoteService;
+import pl.backend.utils.PasswordStrength;
 
 @RestController
 @RequestMapping("/note")
@@ -50,7 +52,10 @@ public class NoteController {
             InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException,
             InvalidKeySpecException {
         String username = jwtService.extractUsername(token);
-        return noteService.getProtected(noteId, password, username);
+        if (PasswordStrength.validateCommonPass(password) && PasswordStrength.validatePassStrength(password)) {
+            return noteService.getProtected(noteId, password, username);
+        }
+        throw new IllegalAccessError();
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
