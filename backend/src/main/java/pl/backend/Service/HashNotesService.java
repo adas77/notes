@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class HashNotesService {
         private final String algorithm = "AES";
-        private final String salt = "12345678";
+        private final String salt = "B3YSkJ=mDXp?:x/WqJ+yYT/DO!39pFEht?)t4?D#of9NHe@bNqz5c*z#.(c=I_WU";
 
         public String encrypt(String input, SecretKey key) throws NoSuchPaddingException, NoSuchAlgorithmException,
                         InvalidKeyException,

@@ -1,5 +1,6 @@
 package pl.backend.Controller;
 
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -39,6 +40,17 @@ public class NoteController {
     @GetMapping("/public")
     public Set<NoteDto> getPublicNotes() {
         return noteService.getPublic();
+    }
+
+    @GetMapping("/protected/{noteId}")
+    public String getProtectedNote(@PathVariable Long noteId,
+            @RequestParam(value = "password", required = true) String password,
+            @RequestHeader(name = "Authorization") String token)
+            throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException,
+            InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException,
+            InvalidKeySpecException {
+        String username = jwtService.extractUsername(token);
+        return noteService.getProtected(noteId, password, username);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
