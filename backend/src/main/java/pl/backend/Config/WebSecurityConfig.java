@@ -39,6 +39,8 @@ public class WebSecurityConfig {
                 .permitAll()
                 .requestMatchers("/note/**")
                 .permitAll()
+                .requestMatchers("/image/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

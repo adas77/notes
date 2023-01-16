@@ -7,6 +7,9 @@ import Error from "./pages/Error";
 import Note from "./components/Note";
 import Public from "./components/Public";
 import PrivRoute from "./components/PrivRoute";
+import Image from "./components/Image";
+import MyImage from "./components/MyImage";
+import UploadImage from "./components/UploadImage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -43,6 +46,16 @@ const App = () => {
     {
       path: "/register",
       element: <Register />,
+      errorElement: <Error />
+    },
+    {
+      path: "/image",
+      element: <MyImage />,
+      errorElement: <Error />
+    },
+    {
+      path: "/image/upload",
+      element: <UploadImage />,
       errorElement: <Error />
     },
 
