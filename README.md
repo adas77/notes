@@ -1,4 +1,4 @@
-# spirng-template
+# Aplikacja notatek
 ## Specyfikacja
 - Backend
   - `Java 17`
