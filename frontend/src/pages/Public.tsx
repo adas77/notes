@@ -45,7 +45,7 @@ const Public = () => {
                 <input onChange={e => setImgLink(e.currentTarget.value)} type="text" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Zgadnij obrazek po nazwie" required></input>
                 <Button onClick={() => {
                     setNoImg(false)
-                    axios.get(`http://localhost:8080/image/${sanitize(imgLink)}`).then(response => {
+                    axios.get(`${process.env.REACT_APP_BACKEND}/image/${sanitize(imgLink)}`).then(response => {
                         setImgs((prev: any) => [...prev, response.config.url])
                         console.log(response.config.url)
                     }).catch(e => { setNoImg(true) });

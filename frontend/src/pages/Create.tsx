@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { notesService } from '../api/noteService';
-import { NoteStatus, NoteType } from '../types/note';
 import Pass from '../components/Pass';
 import RadioButton from '../components/RadioButton';
+import { NoteStatus } from '../types/note';
 
 import sanitizeHtml from 'sanitize-html';
 import Button from '../components/Button';

@@ -38,20 +38,13 @@ public class NoteService {
         User user = userRepository.findByUsername(username).orElseThrow(RuntimeException::new);
         Note newNote = new Note(note.getNote(), note.getNoteStatus());
 
-        log.info("ew");
         if (note.getNoteStatus() == NoteStatus.PRIVATE_ENCODED) {
             String encrypt = hashNotesService.encrypt(note.getNote(), hashNotesService.getKeyFromPassword(password));
             log.info(encrypt);
             newNote.setNote(encrypt);
         }
-        log.info("2ew");
-
         user.addToNotes(newNote);
-        log.info("3ew");
-
         noteRepository.save(newNote);
-        log.info("4ew");
-
         userRepository.save(user);
     }
 

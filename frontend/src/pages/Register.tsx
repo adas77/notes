@@ -16,9 +16,7 @@ const Register = (props: Props) => {
     const [registerError, setRegisterError] = useState<boolean>(false)
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
-        console.log("f")
         e.preventDefault()
-
         if (pass1.length < 8 || user.length < 6 || email.length < 6) {
             return;
         }

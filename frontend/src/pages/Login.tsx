@@ -11,33 +11,15 @@ type Props = {}
 
 const Login = (props: Props) => {
     const location = useLocation();
-    const navigate = useNavigate();
-
     const [pass1, setPass1] = useState<string>("")
     const [user, setUser] = useState<string>("")
     const [wait, setWait] = useState<boolean>(false)
     const [loginFailed, setLoginFailed] = useState<boolean>(false)
     const [loggedIn, setLoggedIn] = useState<boolean>(false)
 
-    useEffect(() => {
-        console.log(localStorage)
-        // if (localStorage.getItem("user")) {
-        //     const { from } = location.state || { from: { pathname: "/" } };
-        //     navigate(from, { replace: true });
-        // }
-    }, [localStorage]);
-
-    useEffect(() => {
-        console.log("pass1", pass1)
-        return () => {
-        }
-    }, [pass1])
-
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
-        console.log("f")
         e.preventDefault()
-
         if (pass1.length < 6 || user.length < 6) {
             return;
         }
@@ -56,7 +38,6 @@ const Login = (props: Props) => {
     return (
         <>
             {loggedIn && <Navigate to="/notes" replace state={{ from: location }} />}
-
             <Navigation />
             <form onSubmit={e => handleSubmit(e)}>
                 <div className="mb-6">

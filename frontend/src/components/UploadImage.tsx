@@ -20,7 +20,8 @@ const UploadImage = () => {
                 onChange={(event: any) => {
                     console.log(event.target.files[0]);
                     setSelectedImage(event.target.files[0]);
-                    axios.post('http://localhost:8080/image', { image: event.target.files[0] }, {
+                    // axios.post('http://localhost:8080/image', { image: event.target.files[0] }, {
+                    axios.post(`${process.env.REACT_APP_BACKEND}/image`, { image: event.target.files[0] }, {
                         headers: {
                             'accept': 'application/json',
                             'Content-Type': `multipart/form-data`,
