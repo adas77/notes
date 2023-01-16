@@ -14,7 +14,7 @@
 
 ## Konfiguracja
 Dodać do `etc/hosts`: `127.0.0.1	notes.pl`
-Pliki: `.env` i `./frontend/.env`
+
 ## Run `docker-compose`
 `Makefile`:
 - `make b` `lub` `docker-compose -f docker-compose.final.yml build` budowanie kontenerów
