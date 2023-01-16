@@ -22,7 +22,7 @@ const MyImage = (props: Props) => {
     useEffect(() => {
 
         // axios.get("http://localhost:8080/image/imgxd.png").then(response => {
-        axios.get("http://localhost:8080/image/jd.png").then(response => {
+        axios.get("http://localhost:8080/image/imgxd.png").then(response => {
             setF(response.config.url)
             console.log(response.config.url)
         });

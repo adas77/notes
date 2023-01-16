@@ -7,6 +7,10 @@ import Pass from './Pass';
 import sanitizeHtml from 'sanitize-html';
 import Navigation from './Navigation';
 import OneNote from './OneNote';
+import Button from './Button';
+import Image from './Image';
+import axios from 'axios';
+import sanitize from 'sanitize-html';
 
 
 
@@ -17,6 +21,9 @@ const Public = () => {
     const [values, setValues] = useState<NoteType[]>([]);
     const [pass1, setPass1] = useState<string>("");
     const [pass2, setPass2] = useState<string>("");
+    const [imgs, setImgs] = useState<any[]>([]);
+    const [img, setImg] = useState<any>();
+    const [imgLink, setImgLink] = useState<string>("");
     const [letSend, setLetSend] = useState<boolean>(true);
 
     useEffect(() => {
@@ -83,6 +90,8 @@ const Public = () => {
         <>
             <Navigation />
             <ReactQuill theme="snow" value={value} onChange={setValue} />
+            <br />
+            <br />
             <h2 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white"> Kliknij na notatke i zobacz text</h2>
 
 
@@ -95,8 +104,33 @@ const Public = () => {
                     <Pass onChange={e => setPass2(e.currentTarget.value)} label={'Confirm Password'} />
                 </>
             }
+            <br />
+            <div className="mb-6 p-3 b-7">
+                <label htmlFor="text" className="block mb-2  text-sm font-medium text-gray-900 dark:text-white">Your <b>Username</b></label>
+                <input onChange={e => setImgLink(e.currentTarget.value)} type="text" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Zgadnij obrazek po nazwie" required></input>
+                <Button onClick={() => {
+                    setImg(null)
+                    axios.get(`http://localhost:8080/image/${sanitize(imgLink)}`).then(response => {
+                        // setImg(response.config.url)
+                        setImgs((prev: any) => [...prev, response.config.url])
+                        console.log(response.config.url)
+                    });
+                }} >Zatwierdź nazwę</Button>
+                <br />
+                <br />
+                {/* {img && < Image src={img} />} */}
+                {imgs && imgs.map((i: string | undefined) =>
 
 
+                    <div className="flex flex-row-reverse  ">
+                        <img className='w-10 h-10 border-2 border-white rounded-full dark:border-gray-800' src={i} />
+                    </div>
+
+
+
+
+                )}
+            </div>
 
             {values.map((v, i) =>
 

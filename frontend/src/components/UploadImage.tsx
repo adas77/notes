@@ -1,23 +1,21 @@
-import React, { useState } from "react";
-import { backendApi } from "../api/http";
 import axios from "axios";
+import { useState } from "react";
 
 const UploadImage = () => {
     const [selectedImage, setSelectedImage] = useState(null);
 
     return (
         <div>
-            <h1>Upload and Display Image usign React Hook's</h1>
+            <br />
+            <br />
+            <h1>Dodaj publiczny obrazek</h1>
             {selectedImage && (
                 <div>
                     <img alt="not fount" width={"250px"} src={URL.createObjectURL(selectedImage)} />
-                    <br />
                     <button onClick={() => setSelectedImage(null)}>Remove</button>
                 </div>
             )}
-            <br />
 
-            <br />
             <input
                 type="file"
                 name="myImage"

@@ -10,6 +10,8 @@ const Note = () => {
   const [value, setValue] = useState<string>('');
   const [values, setValues] = useState<NoteType[]>([]);
 
+
+
   useEffect(() => {
     notesService.getAll().then(res => {
       setValues([])

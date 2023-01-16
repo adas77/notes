@@ -9,6 +9,7 @@ import RadioButton from './RadioButton';
 import sanitizeHtml from 'sanitize-html';
 import Button from './Button';
 import Navigation from './Navigation';
+import UploadImage from './UploadImage';
 
 const Create = () => {
     const [value, setValue] = useState<string>('');
@@ -69,6 +70,7 @@ const Create = () => {
             }
 
             <Button onClick={handleSave}>Save</Button>
+            <UploadImage />
 
         </>)
 }
