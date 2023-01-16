@@ -35,6 +35,11 @@ const App = () => {
           element: <Create />,
           errorElement: <Error />,
         },
+        {
+          path: "images",
+          element: <MyImage />,
+          errorElement: <Error />,
+        },
       ],
     },
     {
@@ -48,16 +53,16 @@ const App = () => {
       element: <Register />,
       errorElement: <Error />
     },
-    {
-      path: "/image",
-      element: <MyImage />,
-      errorElement: <Error />
-    },
-    {
-      path: "/image/upload",
-      element: <UploadImage />,
-      errorElement: <Error />
-    },
+    // {
+    //   path: "/image",
+    //   element: <MyImage />,
+    //   errorElement: <Error />
+    // },
+    // {
+    //   path: "/image/upload",
+    //   element: <UploadImage />,
+    //   errorElement: <Error />
+    // },
 
     // {
     //   path: "/",

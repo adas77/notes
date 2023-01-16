@@ -3,16 +3,6 @@ package pl.backend.Model;
 import java.time.LocalDateTime;
 import java.util.*;
 
-//import javax.persistence.ElementCollection;
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.Table;
-//import javax.persistence.UniqueConstraint;
-//import javax.validation.constraints.Email;
-//import javax.validation.constraints.NotBlank;
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -52,11 +42,11 @@ public class User implements UserDetails {
     private Date lockTime;
     private LocalDateTime dateOfSignUp;
     private String ip;
-    // @OneToMany(mappedBy = "user")
-    // @OneToMany(mappedBy = "user")
     // @OneToMany(fetch = FetchType.LAZY)
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Note> notes = new HashSet<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<ImageData> images = new HashSet<>();
 
     protected void setNotes(Set<Note> notes) {
         this.notes = notes;
@@ -65,6 +55,15 @@ public class User implements UserDetails {
     public void addToNotes(Note note) {
         note.setUser(this);
         this.notes.add(note);
+    }
+
+    protected void setImage(Set<ImageData> images) {
+        this.images = images;
+    }
+
+    public void addToImage(ImageData image) {
+        image.setUser(this);
+        this.images.add(image);
     }
 
     public User(String email, String username, String password) {

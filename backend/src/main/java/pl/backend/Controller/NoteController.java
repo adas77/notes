@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import pl.backend.Config.JwtService;
 import pl.backend.Dto.NoteDto;
@@ -47,7 +48,7 @@ public class NoteController {
 
     // @PostMapping("/add")
     // public Note add() {
-    //     return new Note("ddd", NoteStatus.PRIVATE_ENCODED);
+    // return new Note("ddd", NoteStatus.PRIVATE_ENCODED);
     // }
 
     @GetMapping("/protected/{noteId}")
@@ -69,7 +70,7 @@ public class NoteController {
     // }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public void createNote(@RequestBody Note note, @RequestParam(name = "password", required = false) String password,
+    public void createNote(@RequestBody Note note, @RequestParam(name = "password") String password,
             @RequestHeader(name = "Authorization") String token)
             throws InvalidKeyException, NoSuchPaddingException,
             NoSuchAlgorithmException, BadPaddingException,

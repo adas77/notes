@@ -32,7 +32,7 @@ const Navigation = () => {
     // })
     // const { cmdLogout } = useGlobalDispatch()
     const navigate = useNavigate()
-    const items = [{ href: '/notes', name: 'Notatki' }, { href: '/create', name: 'Stwórz notatki' }, { href: '/public', name: 'Publiczne notatki' }, { href: '/login', name: 'Zaloguj' }, { href: '/register', name: 'Zarejestruj' }]
+    const items = [{ href: '/notes', name: 'Notatki' }, { href: '/images', name: 'Moje zdjęcia' }, { href: '/create', name: 'Stwórz notatki' }, { href: '/public', name: 'Publiczne notatki' }, { href: '/login', name: 'Zaloguj' }, { href: '/register', name: 'Zarejestruj' }]
 
     return (
         <>

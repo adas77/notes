@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { backendApi } from "../api/http";
+import { authHeader, backendApi } from "../api/http";
 import axios from "axios";
 
 const UploadImage = () => {
@@ -32,6 +32,7 @@ const UploadImage = () => {
                         headers: {
                             'accept': 'application/json',
                             'Content-Type': `multipart/form-data`,
+                            'Authorization': authHeader(),
                         }
                     }
                     )
