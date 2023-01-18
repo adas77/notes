@@ -23,7 +23,7 @@ const Register = (props: Props) => {
         const credentials: Auth = {
             email: sanitize(email),
             username: sanitize(user),
-            password: sanitize(user),
+            password: sanitize(pass1),
         }
         authService.register(credentials).catch(e => setRegisterError(true))
         setWait(true)
